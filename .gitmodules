@@ -1,0 +1,3 @@
+[submodule "Paper/Template"]
+	path = Paper/Template
+	url = git@github.com:BritishMachineVisionAssociation/BMVCTemplate.git
