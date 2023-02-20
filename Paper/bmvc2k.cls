@@ -95,7 +95,7 @@
 
 
 %% Change the year...
-\def\BMVA@year{2022}
+\def\BMVA@year{2023}
 
 %% -- CLASS FILE BOILERPLATE --
 
