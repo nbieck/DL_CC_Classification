@@ -8,3 +8,9 @@
 *.fls
 *.synctex.gz
 *.dvi
+
+#python
+.venv
+
+#data
+data/
