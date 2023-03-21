@@ -7,18 +7,18 @@
 % 3- CC models
 % 4- CLF models
 
-/section{Experiment}
+\section{Experiment}
 
 This section will be rewritten for the final paper. Here, we explain the experiment: structure (i.e., our pipeline), used datasets, CC and CLF models.
 For now, we'll write the current progress on the models and some results. Results will later be moved to their own section.
 
-/subsection{Classification models}
+\subsection{Classification models}
 
 Two classification models were used for the classification stage of the pipeline: VGG and our own implemented network. % FUNY-NET
 
 %! WRITE ABOUT VGG HERE, SHORT AND CONCISE, SHOW RESULTS OF CLASSIFICATION ON THE RAW DATASET
 
-The initial version of our network is composed of a convolution layer, followed by max pooling, flatten, and a dense layer, finishing with a softmax activation. 
+The initial version of our network is composed of a convolution layer, followed by max pooling, flatten, and a dense layer, finishing with a softmax activation.
 The goal of the initial version is to verify that the dataset was preprocessed in a way that allows fitting and evaluating the model, and to later tune it.
 For this, the 17 flowers dataset was split into training and validation sets (with the test set split to be implemented later) in a 80/20 ratio and used to fit the model.
 
