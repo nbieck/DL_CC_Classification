@@ -17,19 +17,15 @@ For now, we'll write the current progress on the models and some results. Result
 Two classification models were used for the classification stage of the pipeline: VGG and our own implemented network. % FUNY-NET
  
 
-VGG16
+\subsubsection{VGG16}
 We utilized a pre-trained VGG16 convolutional neural network architecture to classify a raw 17 category image dataset. 
 The model was obtained from an online source and trained on our dataset. During training, the model achieved a training accuracy of 0.8446691036224365 and a test accuracy of 0.7867646813392639. 
 The training accuracy score indicates the model's performance on the training data, while the test accuracy score represents the model's generalization ability on unseen data. 
 The difference between the training and test accuracy scores suggests that the model might be overfitting to the training data. Therefore, further investigation may be needed to improve the model's performance on unseen data.
 Overall, the achieved accuracy scores demonstrate the potential of the VGG16 model for classifying the given image dataset. 
 
-<<<<<<< Updated upstream
-The initial version of our network is composed of a convolution layer, followed by max pooling, flatten, and a dense layer, finishing with a softmax activation.
-=======
-OUR IMPLEMENTED CLASSIFIER 
+\subsubsection{Our Implemented Classifier}
 The initial version of our network is composed of a convolution layer, followed by max pooling, flatten, and a dense layer, finishing with a softmax activation. 
->>>>>>> Stashed changes
 The goal of the initial version is to verify that the dataset was preprocessed in a way that allows fitting and evaluating the model, and to later tune it.
 For this, the 17 flowers dataset was split into training and validation sets (with the test set split to be implemented later) in a 80/20 ratio and used to fit the model.
 
@@ -37,11 +33,16 @@ Once the fitting was successful and it was verified that the dataset splits work
 Number of filters and the kernel size in the convolution layer were the focus of the tuning trial, with values varying from 32 to 512 with steps of 32 for the number of filters, and kernel sizes of 3 and 5.
 Number of trials was set to 3, max pooling kernel size of 2x2, Adam optimizer, and Sparse Categorical Crossentropy for the loss function. Trial results are as follows:
 
-\begin{itemize}{
-    \item Filters: 224 | Kernel size: 3x3 | Score: 0.5515
-    \item Filters: 320 | Kernel size: 5x5 | Score: 0.5000
-    \item Filters: 32  | Kernel size: 5x5 | Score: 0.4890
-}
+\begin{tabular}{c|c|c}
+    Filters&Kernel size&Score\\
+    \hline
+    \hline
+    224&3x3&0.5515\\
+    \hline
+    320&5x5&0.5000\\
+    \hline
+    32&5x5&0.4890
+\end{tabular}
 
 This verifies that we can easily tune our network as we develop it further. It's clear that the score is low and the model can be further improved with additional layers.
 Furthermore, it was noted that the model quickly overfits past epoch number $5$ with an accuracy of around $0.99$ but validation score of approximately $0.5$.
