@@ -11,21 +11,23 @@ the computation of the colour corrected image, and the actual classification of 
     \bmvaHangBox{\includegraphics[width=0.2\textwidth]{cc_demo/flower001_base.png}}&
     \bmvaHangBox{\includegraphics[width=0.2\textwidth]{cc_demo/flower001_whitePatch.png}}&
     \bmvaHangBox{\includegraphics[width=0.2\textwidth]{cc_demo/flower001_greyWorld.png}}&
-    \bmvaHangBox{\includegraphics[width=0.2\textwidth]{cc_demo/flower001_grayEdge.png}}\\
-    (a)&(b)&(c)&(d)\\
+    \bmvaHangBox{\includegraphics[width=0.2\textwidth]{cc_demo/flower001_grayEdge.png}}&
+    \bmvaHangBox{\includegraphics[width=0.2\textwidth]{cc_demo/flower001_fc4.png}}\\
+    (a)&(b)&(c)&(d)&(e)\\
     \bmvaHangBox{\includegraphics[width=0.2\textwidth]{cc_demo/flower268_base.png}}&
     \bmvaHangBox{\includegraphics[width=0.2\textwidth]{cc_demo/flower268_whitePatch.png}}&
     \bmvaHangBox{\includegraphics[width=0.2\textwidth]{cc_demo/flower268_greyWorld.png}}&
-    \bmvaHangBox{\includegraphics[width=0.2\textwidth]{cc_demo/flower268_grayEdge.png}}\\
-    (e)&(f)&(g)&(h)
+    \bmvaHangBox{\includegraphics[width=0.2\textwidth]{cc_demo/flower268_grayEdge.png}}&
+    \bmvaHangBox{\includegraphics[width=0.2\textwidth]{cc_demo/flower268_fc4.png}}\\
+    (f)&(g)&(h)&(i)&(j)
     \end{tabular}
-    \caption{A comparison of color constancy algorithms: (a) and (e): Original image.
-        (b) and (f): White Patch. (c) and (g): Grey-World. (d) and (h): Grey-Edge.}
+    \caption{A comparison of color constancy algorithms: (a) and (f): Original image.
+        (b) and (g): White Patch. (c) and (h): Grey-World. (d) and (i): Grey-Edge. (e) and (j): fc4}
     \label{fig:cc_comparison}
 \end{figure}
 
 In order to have a wider spread of examined methods, we both make use of state-of-the art 
-learning based methods like CLCC \cite{Lo_2021_CVPR}, as well as classical simpler methods 
+learning based methods like CLCC \cite{Lo_2021_CVPR} and fc4\cite{hu2017fc}, as well as classical simpler methods 
 like White-Patch, Grey-World \cite{EbnerConstancy} and Grey-Edge \cite{van2005color}.
 A comparison of these can be found in \ref{fig:cc_comparison}.
 
