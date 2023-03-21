@@ -1,0 +1,39 @@
+% This section is for the experiment part of the paper, where we talk about the
+% pipeline, datasets, and the models we used.
+
+% Suggested structure:
+% 1- Experiment setup/structure (pipeline)
+% 2- Datasets
+% 3- CC models
+% 4- CLF models
+
+/section{Experiment}
+
+This section will be rewritten for the final paper. Here, we explain the experiment: structure (i.e., our pipeline), used datasets, CC and CLF models.
+For now, we'll write the current progress on the models and some results. Results will later be moved to their own section.
+
+/subsection{Classification models}
+
+Two classification models were used for the classification stage of the pipeline: VGG and our own implemented network. % FUNY-NET
+
+%! WRITE ABOUT VGG HERE, SHORT AND CONCISE, SHOW RESULTS OF CLASSIFICATION ON THE RAW DATASET
+
+The initial version of our network is composed of a convolution layer, followed by max pooling, flatten, and a dense layer, finishing with a softmax activation. 
+The goal of the initial version is to verify that the dataset was preprocessed in a way that allows fitting and evaluating the model, and to later tune it.
+For this, the 17 flowers dataset was split into training and validation sets (with the test set split to be implemented later) in a 80/20 ratio and used to fit the model.
+
+Once the fitting was successful and it was verified that the dataset splits work, we implemented the basis for model tuning using the Keras Tuner \cite{omalley2019kerastuner}.
+Number of filters and the kernel size in the convolution layer were the focus of the tuning trial, with values varying from 32 to 512 with steps of 32 for the number of filters, and kernel sizes of 3 and 5.
+Number of trials was set to 3, max pooling kernel size of 2x2, Adam optimizer, and Sparse Categorical Crossentropy for the loss function. Trial results are as follows:
+
+\begin{itemize}{
+    \item Filters: 224 | Kernel size: 3x3 | Score: 0.5515
+    \item Filters: 320 | Kernel size: 5x5 | Score: 0.5000
+    \item Filters: 32  | Kernel size: 5x5 | Score: 0.4890
+}
+
+This verifies that we can easily tune our network as we develop it further. It's clear that the score is low and the model can be further improved with additional layers.
+Furthermore, it was noted that the model quickly overfits past epoch number $5$ with an accuracy of around $0.99$ but validation score of approximately $0.5$.
+The use of, e.g., dropout layers and other techniques could help avoid overfitting.
+
+Next steps include adding more layers to the model, implementing features to avoid overfitting (i.e., dropout), experimenting with a depthwise and depthwise-separable convolution approach, and applying FUNY-NET to the datasets preprocessed by the CC models.

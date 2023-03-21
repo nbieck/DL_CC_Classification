@@ -36,8 +36,14 @@ a corpus of images of flowers (chosen because of the importance of colour in the
 having applied Colour Constancy methods as preprocessing.
 \end{abstract}
 
-\input{sections/introduction.tex}
+% Here's my suggested structure for the paper. Subject to change, specially titles.
+\input{sections/introduction.tex}  % Introduction
+\input{sections/similar_studies.tex}  % Previous related studies on applying CC as preprocessing
+\input{sections/experiment.tex}  % The experiment: pipeline, datasets, CC and CLF models
+\input{sections/results.tex}  % Results of the experiment
+\input{sections/conclusion.tex}  % Conclusion and outlook
 
+% This already existed, so I didn't touch it. Should go inside experiment.tex, under subsection Color-constancy models or similar 
 \input{sections/relatedWork.tex}
 
 \bibliography{references}
