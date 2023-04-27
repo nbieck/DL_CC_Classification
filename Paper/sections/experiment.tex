@@ -9,13 +9,58 @@
 
 \section{Experiment}
 
-This section will be rewritten for the final paper. Here, we explain the experiment: structure (i.e., our pipeline), used datasets, CC and CLF models.
-For now, we'll write the current progress on the models and some results. Results will later be moved to their own section.
+\subsection{Datasets}
+
+We used the publicly available Oxford 17 \cite{Nilsback06} and Oxford 104 \cite{Nilsback08} datasets. By using only existing datasets, we ensure that our results can more 
+easily be contrasted with other research in this area.
+ 
+\subsection{Color Constancy}
+
+\begin{figure}
+    \centering
+    \begin{tabular}{c|cccc}
+    \bmvaHangBox{\includegraphics[width=0.165\textwidth]{cc_demo/flower001_base.png}}&
+    \bmvaHangBox{\includegraphics[width=0.165\textwidth]{cc_demo/flower001_whitePatch.png}}&
+    \bmvaHangBox{\includegraphics[width=0.165\textwidth]{cc_demo/flower001_greyWorld.png}}&
+    \bmvaHangBox{\includegraphics[width=0.165\textwidth]{cc_demo/flower001_grayEdge.png}}&
+    \bmvaHangBox{\includegraphics[width=0.165\textwidth]{cc_demo/flower001_fc4.png}}\\
+    (a)&(b)&(c)&(d)&(e)\\
+    \bmvaHangBox{\includegraphics[width=0.165\textwidth]{cc_demo/flower268_base.png}}&
+    \bmvaHangBox{\includegraphics[width=0.165\textwidth]{cc_demo/flower268_whitePatch.png}}&
+    \bmvaHangBox{\includegraphics[width=0.165\textwidth]{cc_demo/flower268_greyWorld.png}}&
+    \bmvaHangBox{\includegraphics[width=0.165\textwidth]{cc_demo/flower268_grayEdge.png}}&
+    \bmvaHangBox{\includegraphics[width=0.165\textwidth]{cc_demo/flower268_fc4.png}}\\
+    (f)&(g)&(h)&(i)&(j)
+    \end{tabular}
+    \caption{A comparison of color constancy algorithms: (a) and (f): Original image.
+        (b) and (g): White Patch. (c) and (h): Grey-World. 
+        (d) and (i): Grey-Edge. (e) and (j): FC\textsuperscript{4}}
+    \label{fig:cc_comparison}
+\end{figure}
+
+In order to have a wider spread of examined methods, we both make use of state-of-the art 
+learning based methods (in this case represented by FC\textsuperscript{4}\cite{hu2017fc}), as well as classical simpler methods 
+like White-Patch, Grey-World \cite{EbnerConstancy} and Grey-Edge \cite{van2005color}.
+A comparison of these can be found in \ref{fig:cc_comparison}.
+
+\subsubsection{Statistical Methods}
+
+In the grey world algorithm, the assumption is made that the average reflectance of the scene should
+be a shade of grey. We can therefore infer that any deviation of the average color from this grey tone stems from
+the illumination in the scene. By simply dividing this out, we receive a color-corrected image.
+
+White-Patch is a close relative of this method, where instead we assume that the brightest spot in the image (for each channel)
+is representative of the overall light color.
+
+In the grey-edge hypothesis we instead assume that the average image gradient can be used as an indication of the light color.
+
+All of these algorithms were reimplemented by us. Notably, based on the recommendation made by Ebner \cite{EbnerConstancy},
+after color adjustment we rescale all results such that the top 5\% of values (across all channels) will be clipped to
+the maximum intensity of 1.
 
 \subsection{Classification models}
 
 Two classification models were used for the classification stage of the pipeline: VGG and our own implemented network. % FUNY-NET
- 
 
 \subsubsection{VGG16}
 We utilized a pre-trained VGG16 convolutional neural network architecture to classify a raw 17 category image dataset. 
