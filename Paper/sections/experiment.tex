@@ -114,71 +114,176 @@ Next steps include adding more layers to the model, implementing features to avo
 
 \begin{figure}
     \centering
-\begin{tabular}{cc}
-\begin{tikzpicture}
-\begin{axis}[
-    title = Training Time,
-    ylabel = time/s,
-    ybar,
-    xtick=data,
-    xticklabels from table = {data/ours_17_flowers_summary.csv}{Algorithm},
-    x tick label style = {rotate=45, anchor=east},
-    error bars/y dir=both,
-    error bars/y explicit,
-    error bars/error bar style={black},
-    ymin=0,
-    width=0.49\textwidth,
-    bar width=6,
-]
-    \addplot+[
-        title = Our Model,
-        draw=black,
-        fill=ourorange,
-    ] table[
-        col sep=comma,
-        x expr=\coordindex,
-        y=Average Train Time,
-        y error=Stdev Train Time
-    ] {data/ours_17_flowers_summary.csv};
-    \addplot+[
-        title = Our Model,
-        draw=black,
-        fill=ourblue
-    ] table[
-        col sep=comma,
-        x expr=\coordindex,
-        y=Average Train Time,
-        y error=Stdev Train Time
-    ] {data/ours_17_flowers_summary.csv};
-\end{axis}
-\end{tikzpicture}&
-\begin{tikzpicture}
-\begin{axis}[
-    title = Testing Time,
-    xtick=data,
-    xticklabels from table = {data/ours_17_flowers_summary.csv}{Algorithm},
-    x tick label style = {rotate=45, anchor=east},
-    error bars/y dir=both,
-    error bars/y explicit,
-    error bars/error bar style={black},
-    no markers,
-    ymin=0,
-    width=0.45\textwidth,
-]
-    \addplot+[
-        title = Our Model,
-        ybar,
-        draw=black,
-        fill=ourblue
-    ] table[
-        col sep=comma,
-        x expr=\coordindex,
-        y=Average Test Time,
-        y error=Stdev Test Time
-    ] {data/ours_17_flowers_summary.csv};
-\end{axis}
-\end{tikzpicture}
-\end{tabular}
+    \begin{tabular}{cc}
+        \begin{tikzpicture}
+            \begin{axis}[
+                title = Training Time,
+                ylabel = time/s,
+                ybar,
+                xtick=data,
+                xticklabels from table = {data/ours_17_flowers_summary.csv}{Algorithm},
+                x tick label style = {rotate=45, anchor=east},
+                error bars/y dir=both,
+                error bars/y explicit,
+                error bars/error bar style={black},
+                ymin=0,
+                width=0.49\textwidth,
+                bar width=6,
+            ]
+                \addplot+[
+                    title = Our Model,
+                    draw=black,
+                    fill=ourorange,
+                ] table[
+                    col sep=comma,
+                    x expr=\coordindex,
+                    y=Average Train Time,
+                    y error=Stdev Train Time
+                ] {data/ours_17_flowers_summary.csv};
+                \addplot+[
+                    title = Our Model,
+                    draw=black,
+                    fill=ourblue
+                ] table[
+                    col sep=comma,
+                    x expr=\coordindex,
+                    y=Average Train Time,
+                    y error=Stdev Train Time
+                ] {data/ours_17_flowers_summary.csv};
+            \end{axis}
+        \end{tikzpicture}&
+        \begin{tikzpicture}
+            \begin{axis}[
+                title = Testing Time,
+                xtick=data,
+                xticklabels from table = {data/ours_17_flowers_summary.csv}{Algorithm},
+                x tick label style = {rotate=45, anchor=east},
+                error bars/y dir=both,
+                error bars/y explicit,
+                error bars/error bar style={black},
+                no markers,
+                ymin=0,
+                width=0.49\textwidth,
+            ]
+                \addplot+[
+                    title = Our Model,
+                    ybar,
+                    draw=black,
+                    fill=ourblue
+                ] table[
+                    col sep=comma,
+                    x expr=\coordindex,
+                    y=Average Test Time,
+                    y error=Stdev Test Time
+                ] {data/ours_17_flowers_summary.csv};
+            \end{axis}
+        \end{tikzpicture}
+    \end{tabular}
+
+    \begin{tikzpicture}
+        \begin{axis}[
+            title = Validation Loss over Time,
+            mark repeat=4,
+            xlabel = Epoch,
+            ylabel = Loss,
+        ]
+            \addplot+[
+                sharp plot,
+            ] table[
+                x = Epoch,
+                y = Base,
+            ] {data/validation_loss_17_flowers.csv};
+            \addlegendentry{Base}
+            \addplot+[
+                sharp plot,
+            ] table[
+                x = Epoch,
+                y = BatchNorm,
+            ] {data/validation_loss_17_flowers.csv};
+            \addlegendentry{Batch Norm}
+            \addplot+[
+                sharp plot,
+            ] table[
+                x = Epoch,
+                y = FC4,
+            ] {data/validation_loss_17_flowers.csv};
+            \addlegendentry{FC\textsuperscript{4}}
+            \addplot+[
+                sharp plot,
+            ] table[
+                x = Epoch,
+                y = WhitePatch,
+            ] {data/validation_loss_17_flowers.csv};
+            \addlegendentry{White Patch}
+            \addplot+[
+                sharp plot,
+            ] table[
+                x = Epoch,
+                y = GreyEdge,
+            ] {data/validation_loss_17_flowers.csv};
+            \addlegendentry{Grey Edge}
+            \addplot+[
+                sharp plot,
+            ] table[
+                x = Epoch,
+                y = GreyWorld,
+            ] {data/validation_loss_17_flowers.csv};
+            \addlegendentry{Grey World}
+        \end{axis}
+    \end{tikzpicture}
+
+    \begin{tikzpicture}
+        \begin{axis}[
+            title = Validation Accuracy over Time,
+            mark repeat=4,
+            xlabel = Epoch,
+            ylabel = Accuracy,
+            legend pos=south east,
+        ]
+            \addplot+[
+                sharp plot,
+            ] table[
+                x = Epoch,
+                y = Base,
+            ] {data/validation_accuracy_17_flowers.csv};
+            \addlegendentry{Base}
+            \addplot+[
+                sharp plot,
+            ] table[
+                x = Epoch,
+                y = BatchNorm,
+            ] {data/validation_accuracy_17_flowers.csv};
+            \addlegendentry{Batch Norm}
+            \addplot+[
+                sharp plot,
+            ] table[
+                x = Epoch,
+                y = FC4,
+            ] {data/validation_accuracy_17_flowers.csv};
+            \addlegendentry{FC\textsuperscript{4}}
+            \addplot+[
+                sharp plot,
+            ] table[
+                x = Epoch,
+                y = WhitePatch,
+            ] {data/validation_accuracy_17_flowers.csv};
+            \addlegendentry{White Patch}
+            \addplot+[
+                sharp plot,
+            ] table[
+                x = Epoch,
+                y = GreyEdge,
+            ] {data/validation_accuracy_17_flowers.csv};
+            \addlegendentry{Grey Edge}
+            \addplot+[
+                sharp plot,
+            ] table[
+                x = Epoch,
+                y = GreyWorld,
+            ] {data/validation_accuracy_17_flowers.csv};
+            \addlegendentry{Grey World}
+        \end{axis}
+    \end{tikzpicture}
     \caption{A bar chart to test with.}
     \label{fig:testbar}
 \end{figure}
