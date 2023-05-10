@@ -94,3 +94,91 @@ Furthermore, it was noted that the model quickly overfits past epoch number $5$ 
 The use of, e.g., dropout layers and other techniques could help avoid overfitting.
 
 Next steps include adding more layers to the model, implementing features to avoid overfitting (i.e., dropout), experimenting with a depthwise and depthwise-separable convolution approach, and applying FUNY-NET to the datasets preprocessed by the CC models.
+
+\pgfplotstabletypeset[
+    col sep=comma,
+    columns={Algorithm, Average Train Time, Average Test Time, 
+        Average Training Loss, Average Validation Loss, Average Test Accuracy},
+    column type = l,
+    columns/Algorithm/.style={string type, column name=},
+    columns/Average Train Time/.style = {column name ={Training (s)}},
+    columns/Average Test Time/.style = {column name ={Testing (s)}},
+    columns/Average Training Loss/.style = {column name ={Train Loss}},
+    columns/Average Validation Loss/.style = {column name ={Val Loss}},
+    columns/Average Test Accuracy/.style = {column name ={Test Acc}},
+    every head row/.style = {before row=\hline, after row=\hline},
+    every last row/.style = {after row=\hline},
+    every column/.style = {column type/.add={|}{}},
+    every last column/.style = {column type/.add={}{|}}
+]{data/ours_17_flowers_summary.csv}
+
+\begin{figure}
+    \centering
+\begin{tabular}{cc}
+\begin{tikzpicture}
+\begin{axis}[
+    title = Training Time,
+    ylabel = time/s,
+    ybar,
+    xtick=data,
+    xticklabels from table = {data/ours_17_flowers_summary.csv}{Algorithm},
+    x tick label style = {rotate=45, anchor=east},
+    error bars/y dir=both,
+    error bars/y explicit,
+    error bars/error bar style={black},
+    ymin=0,
+    width=0.49\textwidth,
+    bar width=6,
+]
+    \addplot+[
+        title = Our Model,
+        draw=black,
+        fill=ourorange,
+    ] table[
+        col sep=comma,
+        x expr=\coordindex,
+        y=Average Train Time,
+        y error=Stdev Train Time
+    ] {data/ours_17_flowers_summary.csv};
+    \addplot+[
+        title = Our Model,
+        draw=black,
+        fill=ourblue
+    ] table[
+        col sep=comma,
+        x expr=\coordindex,
+        y=Average Train Time,
+        y error=Stdev Train Time
+    ] {data/ours_17_flowers_summary.csv};
+\end{axis}
+\end{tikzpicture}&
+\begin{tikzpicture}
+\begin{axis}[
+    title = Testing Time,
+    xtick=data,
+    xticklabels from table = {data/ours_17_flowers_summary.csv}{Algorithm},
+    x tick label style = {rotate=45, anchor=east},
+    error bars/y dir=both,
+    error bars/y explicit,
+    error bars/error bar style={black},
+    no markers,
+    ymin=0,
+    width=0.45\textwidth,
+]
+    \addplot+[
+        title = Our Model,
+        ybar,
+        draw=black,
+        fill=ourblue
+    ] table[
+        col sep=comma,
+        x expr=\coordindex,
+        y=Average Test Time,
+        y error=Stdev Test Time
+    ] {data/ours_17_flowers_summary.csv};
+\end{axis}
+\end{tikzpicture}
+\end{tabular}
+    \caption{A bar chart to test with.}
+    \label{fig:testbar}
+\end{figure}
