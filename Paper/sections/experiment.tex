@@ -231,6 +231,59 @@ Next steps include adding more layers to the model, implementing features to avo
             \addlegendentry{Grey World}
         \end{axis}
     \end{tikzpicture}
+
+    \begin{tikzpicture}
+        \begin{axis}[
+            title = Validation Accuracy over Time,
+            mark repeat=4,
+            xlabel = Epoch,
+            ylabel = Accuracy,
+            legend pos=south east,
+        ]
+            \addplot+[
+                sharp plot,
+            ] table[
+                x = Epoch,
+                y = Base,
+            ] {data/validation_accuracy_17_flowers.csv};
+            \addlegendentry{Base}
+            \addplot+[
+                sharp plot,
+            ] table[
+                x = Epoch,
+                y = BatchNorm,
+            ] {data/validation_accuracy_17_flowers.csv};
+            \addlegendentry{Batch Norm}
+            \addplot+[
+                sharp plot,
+            ] table[
+                x = Epoch,
+                y = FC4,
+            ] {data/validation_accuracy_17_flowers.csv};
+            \addlegendentry{FC\textsuperscript{4}}
+            \addplot+[
+                sharp plot,
+            ] table[
+                x = Epoch,
+                y = WhitePatch,
+            ] {data/validation_accuracy_17_flowers.csv};
+            \addlegendentry{White Patch}
+            \addplot+[
+                sharp plot,
+            ] table[
+                x = Epoch,
+                y = GreyEdge,
+            ] {data/validation_accuracy_17_flowers.csv};
+            \addlegendentry{Grey Edge}
+            \addplot+[
+                sharp plot,
+            ] table[
+                x = Epoch,
+                y = GreyWorld,
+            ] {data/validation_accuracy_17_flowers.csv};
+            \addlegendentry{Grey World}
+        \end{axis}
+    \end{tikzpicture}
     \caption{A bar chart to test with.}
     \label{fig:testbar}
 \end{figure}
