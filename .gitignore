@@ -21,3 +21,5 @@ tuner/
 
 # other
 out/
+.vscode/settings.json
+logs/
