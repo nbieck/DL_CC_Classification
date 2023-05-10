@@ -6,6 +6,7 @@
 \usepackage{pgfplots}
 \usepackage{pgfplotstable}
 \pgfplotstableset{col sep=comma}
+\usetikzlibrary{plotmarks}
 
 \definecolor{ourorange}{RGB}{230,159,0}
 \definecolor{ourblue}{RGB}{86,180,233}
@@ -14,6 +15,19 @@
 \definecolor{ourdarkblue}{RGB}{0,114,178}
 \definecolor{ourdarkorange}{RGB}{213,94,0}
 \definecolor{ourpurple}{RGB}{204,121,167}
+
+\pgfplotsset{
+    cycle list={
+        {ourorange, mark=*},
+        {ourblue, mark=+},
+        {ourgreen, mark=x},
+        {ourpurple, mark=o},
+        {ourdarkblue, mark=square},
+        {ourdarkorange, mark=triangle},
+        {outyellow, mark=diamond},
+    },
+    every mark/.append style={solid},
+}
 
 \graphicspath{ {./images/} }
 
