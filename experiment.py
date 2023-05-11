@@ -1,65 +1,74 @@
 from datetime import datetime
 
-import pandas as pd
-from keras.callbacks import EarlyStopping, ReduceLROnPlateau
-
-from models.flowers import get_base_model, get_batchnorm_model, get_cc_model
-from models.utils import load_ds, run_experiment
 from processing.grey_world.cc_layers import GreyEdge, GreyWorld, WhitePatch
+from src.model import get_model
+from src.utils import load_ds, run_experiment, write_to_excel, convert_seconds
+import logging
+import time
+
 
 # Parameters
-NUM_CLASSES = 17
-MAX_EPOCHS = 300
-REDUCE_LR_FACTOR = 0.2
-REDUCE_LR_PATIENCE = 5
-REDUCE_LR_MIN_LR = 1e-5
-EARLY_STOP_PATIENCE = 25
+PARAMS_17F = {
+    "name": "17flowers",
+    "n_classes": 17,
+    "n_epochs": 50
+}
+PARAMS_102F = {
+    "name": "102flowers",
+    "n_classes": 102,
+    "n_epochs": 100
+}
+LEARNING_RATE = 1e-3
 N_TRIALS = 10
+
+# Configure the logging
+logging.basicConfig(level=logging.DEBUG,
+                    format='%(asctime)s - %(levelname)s - %(message)s')
 
 # CC layers
 grey_world_layer = GreyWorld()
 white_patch_layer = WhitePatch()
 grey_edge_layer = GreyEdge()
 
-# Create new models
-model_base = get_base_model(NUM_CLASSES)
-model_batch = get_batchnorm_model(NUM_CLASSES)
-model_gw = get_cc_model(NUM_CLASSES, grey_world_layer)
-model_ge = get_cc_model(NUM_CLASSES, grey_edge_layer)
-model_wp = get_cc_model(NUM_CLASSES, white_patch_layer)
-model_fc4 = get_base_model(NUM_CLASSES)
+# Get start time
+start_time = time.time()
 
-# Callbacks
-reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=REDUCE_LR_FACTOR, patience=REDUCE_LR_PATIENCE, min_lr=REDUCE_LR_MIN_LR)
-early_stop = EarlyStopping(monitor='val_loss', patience=EARLY_STOP_PATIENCE)
-callbacks = [reduce_lr, early_stop]
+for params in [PARAMS_17F, PARAMS_102F]:
+    # Load datasets
+    train_ds, val_ds, test_ds = load_ds(ds_name=params["name"], cc=False)
+    train_ds_cc, val_ds_cc, test_ds_cc = load_ds(
+        ds_name=params["name"], cc=True)
 
-# Load datasets
-train_ds, val_ds, test_ds = load_ds(cc=False)
-train_ds_cc, val_ds_cc, test_ds_cc = load_ds(cc=True)
+    # Run experiments
+    metrics = {}
+    metrics["Base"] = run_experiment(
+        get_model, train_ds, val_ds, test_ds, n_epochs=params["n_epochs"], learning_rate=LEARNING_RATE, callbacks=None, n_trials=N_TRIALS, num_classes=params["n_classes"])
+    metrics["BatchNorm"] = run_experiment(get_model, train_ds, val_ds, test_ds, n_epochs=params["n_epochs"], learning_rate=LEARNING_RATE,
+                                          callbacks=None, n_trials=N_TRIALS, num_classes=params["n_classes"], use_batchnorm=True)
+    metrics["GreyWorld"] = run_experiment(get_model, train_ds, val_ds, test_ds, n_epochs=params["n_epochs"], learning_rate=LEARNING_RATE,
+                                          callbacks=None, n_trials=N_TRIALS, num_classes=params["n_classes"], cc_layer=grey_world_layer)
+    metrics["GreyEdge"] = run_experiment(get_model, train_ds, val_ds, test_ds, n_epochs=params["n_epochs"], learning_rate=LEARNING_RATE,
+                                         callbacks=None, n_trials=N_TRIALS, num_classes=params["n_classes"], cc_layer=grey_edge_layer)
+    metrics["WhitePatch"] = run_experiment(get_model, train_ds, val_ds, test_ds, n_epochs=params["n_epochs"], learning_rate=LEARNING_RATE,
+                                           callbacks=None, n_trials=N_TRIALS, num_classes=params["n_classes"], cc_layer=white_patch_layer)
+    metrics["FC4"] = run_experiment(get_model, train_ds, val_ds, test_ds, n_epochs=params["n_epochs"],
+                                    learning_rate=LEARNING_RATE, callbacks=None, n_trials=N_TRIALS, num_classes=params["n_classes"])
 
-# Run experiments
-metrics = {}
-metrics["Base"] = run_experiment(model_base, train_ds, val_ds, test_ds, MAX_EPOCHS, callbacks, n_trials=N_TRIALS)
-metrics["BatchNorm"] = run_experiment(model_batch, train_ds, val_ds, test_ds, MAX_EPOCHS, callbacks, n_trials=N_TRIALS)
-metrics["GreyWorld"] = run_experiment(model_gw, train_ds, val_ds, test_ds, MAX_EPOCHS, callbacks, n_trials=N_TRIALS)
-metrics["GreyEdge"] = run_experiment(model_ge, train_ds, val_ds, test_ds, MAX_EPOCHS, callbacks, n_trials=N_TRIALS)
-metrics["WhitePatch"] = run_experiment(model_wp, train_ds, val_ds, test_ds, MAX_EPOCHS, callbacks, n_trials=N_TRIALS)
-metrics["FC4"] = run_experiment(model_fc4, train_ds_cc, val_ds_cc, test_ds_cc, MAX_EPOCHS, callbacks, n_trials=N_TRIALS)
+    # Get the current timestamp
+    timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
 
-# Get the current timestamp
-timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+    # Export data to Excel sheet
+    dst_path = f"./out/{timestamp}_experiments_{params['name']}.xlsx"
+    write_to_excel(dst_path, metrics)
 
-# Export data to Excel sheet
-dst_path = f"./out/{timestamp}_experiments_17flowers.xlsx"
-with pd.ExcelWriter(dst_path, engine='xlsxwriter',) as writer:    
-    end_data = pd.concat({k: pd.DataFrame(v) for k, v in metrics.items()}, axis=0, names=["Algorithm", "Trial"])
-    end_data.drop("history", axis=1, inplace=True)
-    end_data.to_excel(writer, "Final Data", merge_cells=False)
+    logging.info(f"Data for {params['name']} saved to {dst_path}.")
 
-    for k, metric in metrics.items():
-        histories = metric["history"]
-        algo_data = pd.concat({f"{i}": pd.DataFrame(history.history) for i, history in enumerate(histories)}, axis=1)
-        algo_data.to_excel(writer, f"{k} History", merge_cells=False)
+# Get end time and calculate total time spent
+end_time = time.time()
+total_time = end_time - start_time
 
-print(f"Data saved to {dst_path}")
+# Convert to hours and minutes
+hours, minutes = convert_seconds(total_time)
+
+# Log some messages
+logging.info(f'Finished! The experiment took {hours}h and {minutes}min.')

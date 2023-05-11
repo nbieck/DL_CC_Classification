@@ -1,11 +1,8 @@
 import pathlib
 import time
 
-import numpy as np
 import tensorflow as tf
-from tensorflow.keras import Sequential
-from tensorflow.keras.layers import (RandomFlip, RandomRotation,
-                                     RandomTranslation, RandomZoom)
+import pandas as pd
 
 # Constants
 IMG_HEIGHT = 180
@@ -14,40 +11,43 @@ BATCH_SIZE = 32
 AUTOTUNE = tf.data.AUTOTUNE
 
 
-def load_ds(cc:bool):
+def load_ds(ds_name: str, cc: bool):
     """
         Return train/val/test dataset.
 
+        `ds_name`: either '17flowers' or '102flowers'.
+
         `cc`: if True, will return CC'd dataset.
     """
+
     # Split directories
-    path_to_data = "data/17flowers/"
+    path_to_data = f"data/{ds_name}/"
     if cc:
-        path_to_data = "data/17flowers/cc/"
+        path_to_data = f"data/{ds_name}/cc/"
     train_dir = pathlib.Path(path_to_data + "train")
     val_dir = pathlib.Path(path_to_data + "val")
     test_dir = pathlib.Path(path_to_data + "test")
 
     # Load datasets
     train_ds = tf.keras.utils.image_dataset_from_directory(
-    train_dir,
-    seed=123,
-    image_size=(IMG_HEIGHT, IMG_WIDTH),
-    batch_size=BATCH_SIZE
+        train_dir,
+        seed=123,
+        image_size=(IMG_HEIGHT, IMG_WIDTH),
+        batch_size=BATCH_SIZE
     )
 
     val_ds = tf.keras.utils.image_dataset_from_directory(
-    val_dir,
-    seed=123,
-    image_size=(IMG_HEIGHT, IMG_WIDTH),
-    batch_size=BATCH_SIZE
+        val_dir,
+        seed=123,
+        image_size=(IMG_HEIGHT, IMG_WIDTH),
+        batch_size=BATCH_SIZE
     )
 
     test_ds = tf.keras.utils.image_dataset_from_directory(
-    test_dir,
-    seed=123,
-    image_size=(IMG_HEIGHT, IMG_WIDTH),
-    batch_size=BATCH_SIZE
+        test_dir,
+        seed=123,
+        image_size=(IMG_HEIGHT, IMG_WIDTH),
+        batch_size=BATCH_SIZE
     )
 
     # Performance
@@ -57,17 +57,7 @@ def load_ds(cc:bool):
     return train_ds, val_ds, test_ds
 
 
-def get_data_augmentation_layer():
-    data_augmentation = Sequential([
-        RandomFlip("horizontal_and_vertical", input_shape=(IMG_HEIGHT, IMG_WIDTH, 3)),
-        RandomTranslation(0.2, 0.2),
-        RandomRotation(0.2),
-        RandomZoom(0.2),
-    ])
-    return data_augmentation
-
-
-def run_experiment(model, train_ds, val_ds, test_ds, max_epochs:int, callbacks:list, n_trials=10):
+def run_experiment(get_model, train_ds, val_ds, test_ds, n_epochs: int, learning_rate: float, callbacks: list, n_trials: int = 10, **kwargs):
     metrics = {
         "train_time": [],
         "test_time": [],
@@ -80,9 +70,11 @@ def run_experiment(model, train_ds, val_ds, test_ds, max_epochs:int, callbacks:l
         "history": []
     }
 
-    for i in range(n_trials):        
+    for i in range(n_trials):
+        model = get_model(**kwargs)
+
         model.compile(
-            optimizer='adam',
+            optimizer=tf.keras.optimizers.RMSprop(learning_rate=learning_rate),
             loss=tf.keras.losses.SparseCategoricalCrossentropy(),
             metrics=['accuracy'])
 
@@ -90,14 +82,14 @@ def run_experiment(model, train_ds, val_ds, test_ds, max_epochs:int, callbacks:l
         history = model.fit(
             train_ds,
             validation_data=val_ds,
-            epochs=max_epochs,
+            epochs=n_epochs,
             callbacks=callbacks,
             verbose=1)
         end_time = time.perf_counter()
         training_time = end_time - start_time
 
         start_time = time.perf_counter()
-        test_loss, test_acc = model.evaluate(test_ds, verbose=0)
+        test_loss, test_acc = model.evaluate(test_ds, verbose=1)
         end_time = time.perf_counter()
         test_time = end_time - start_time
 
@@ -111,3 +103,23 @@ def run_experiment(model, train_ds, val_ds, test_ds, max_epochs:int, callbacks:l
         metrics["test_loss"].append(test_loss)
         metrics["history"].append(history)
     return metrics
+
+
+def write_to_excel(dst_path, metrics):
+    with pd.ExcelWriter(dst_path, engine='xlsxwriter',) as writer:
+        end_data = pd.concat({k: pd.DataFrame(
+            v) for k, v in metrics.items()}, axis=0, names=["Algorithm", "Trial"])
+        end_data.drop("history", axis=1, inplace=True)
+        end_data.to_excel(writer, "Final Data", merge_cells=False)
+
+        for k, metric in metrics.items():
+            histories = metric["history"]
+            algo_data = pd.concat({f"{i}": pd.DataFrame(history.history)
+                                   for i, history in enumerate(histories)}, axis=1)
+            algo_data.to_excel(writer, f"{k} History", merge_cells=False)
+
+
+def convert_seconds(seconds):
+    hours, remainder = divmod(seconds, 3600)  # 3600 seconds in an hour
+    minutes, seconds = divmod(remainder, 60)  # 60 seconds in a minute
+    return hours, minutes
