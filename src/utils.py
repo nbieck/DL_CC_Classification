@@ -74,11 +74,6 @@ def run_experiment(get_model, train_ds, val_ds, test_ds, n_epochs: int, learning
     for i in range(n_trials):
         model = get_model(**kwargs)
 
-        model.compile(
-            optimizer=tf.keras.optimizers.RMSprop(learning_rate=learning_rate),
-            loss=tf.keras.losses.SparseCategoricalCrossentropy(),
-            metrics=['accuracy'])
-
         start_time = time.perf_counter()
         history = model.fit(
             train_ds,

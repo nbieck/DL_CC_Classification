@@ -20,7 +20,7 @@ def get_data_augmentation_layer():
     return data_augmentation
 
 
-def get_model(num_classes: int, use_batchnorm: bool = False, cc_layer=None):
+def get_model(num_classes: int, use_batchnorm: bool = False, cc_layer=None, learning_rate=1e-3):
     model = Sequential()
     model.add(Rescaling(1./255))
 
@@ -51,36 +51,39 @@ def get_model(num_classes: int, use_batchnorm: bool = False, cc_layer=None):
     model.add(Dropout(0.5))
     model.add(Dense(num_classes, activation="softmax"))
 
-    model.add(tf.keras.layers.Conv2D(3, 5, padding="same", input_shape=(IMG_HEIGHT, IMG_WIDTH, 3)))
-    model.add(tf.keras.layers.BatchNormalization())
-    model.add(tf.keras.layers.ReLU())
+    # Compile the model
+    model.compile(loss=tf.keras.losses.SparseCategoricalCrossentropy(),
+                  optimizer=tf.keras.optimizers.RMSprop(
+        learning_rate=learning_rate),
+        metrics=['accuracy'])
     return model
 
-def get_vggmodel(num_classes: int, use_batchnorm: bool = False, cc_layer=None):
+
+def get_vggmodel(num_classes: int, use_batchnorm: bool = False, cc_layer=None, learning_rate=1e-3):
 
     # Load the VGG model
-    vgg_conv = VGG16(weights='imagenet', include_top=False, input_shape=(IMG_HEIGHT, IMG_WIDTH, 3))
+    vgg_conv = VGG16(weights='imagenet', include_top=False,
+                     input_shape=(IMG_HEIGHT, IMG_WIDTH, 3))
 
-    # Freeze all the layers except for the last layer: 
+    # Freeze all the layers except for the last layer:
     for layer in vgg_conv.layers[:-4]:
         layer.trainable = False
-    
+
     # Create the model
     model = models.Sequential()
 
     model.add(Rescaling(1./255))
 
-
     if use_batchnorm:
-        model.add(Conv2D(3, 5, padding="same", input_shape=(IMG_HEIGHT, IMG_WIDTH, 3)))
+        model.add(Conv2D(3, 5, padding="same",
+                  input_shape=(IMG_HEIGHT, IMG_WIDTH, 3)))
         model.add(BatchNormalization())
         model.add(ReLU())
 
     if cc_layer != None:
         # Add cc layers
         model.add(cc_layer)
-    
-    
+
     # Add the vgg convolutional base model
     model.add(vgg_conv)
 
@@ -89,13 +92,14 @@ def get_vggmodel(num_classes: int, use_batchnorm: bool = False, cc_layer=None):
     model.add(Dense(1024, activation='relu'))
     model.add(Dropout(0.5))
     model.add(Dense(num_classes, activation='softmax'))
-    
+
     # Compile the model
     model.compile(loss=tf.keras.losses.SparseCategoricalCrossentropy(),
-                optimizer=tf.keras.optimizers.RMSprop(learning_rate=LEARNING_RATE),
-                metrics=['accuracy'])
+                  optimizer=tf.keras.optimizers.RMSprop(
+                      learning_rate=learning_rate),
+                  metrics=['accuracy'])
 
     # Build the model
     model.build((None, IMG_HEIGHT, IMG_WIDTH, 3))
-    
+
     return model
