@@ -3,6 +3,7 @@ import time
 
 import tensorflow as tf
 import pandas as pd
+import logging
 
 # Constants
 IMG_HEIGHT = 180
@@ -72,6 +73,8 @@ def run_experiment(get_model, train_ds, val_ds, test_ds, n_epochs: int, learning
     }
 
     for i in range(n_trials):
+        logging.info(f"Running trial number {i+1}/{n_trials}.")
+
         model = get_model(**kwargs)
 
         start_time = time.perf_counter()

@@ -35,6 +35,8 @@ grey_edge_layer = GreyEdge()
 start_time = time.time()
 
 for params in [PARAMS_17F, PARAMS_102F]:
+    logging.info(f"Loading dataset {params['name']}.")
+
     # Load datasets
     train_ds, val_ds, test_ds = load_ds(ds_name=params["name"], cc=False)
     train_ds_cc, val_ds_cc, test_ds_cc = load_ds(
@@ -42,18 +44,39 @@ for params in [PARAMS_17F, PARAMS_102F]:
 
     # Run experiments
     metrics = {}
+
+    logging.info(f"Starting experiment: {params['name']} - Base.")
+
     metrics["Base"] = run_experiment(
         GET_MODEL_FUNCTION, train_ds, val_ds, test_ds, n_epochs=params["n_epochs"], learning_rate=LEARNING_RATE, callbacks=None, n_trials=N_TRIALS, num_classes=params["n_classes"])
+
+    logging.info(f"Starting experiment: {params['name']} - BatchNorm.")
+
     metrics["BatchNorm"] = run_experiment(GET_MODEL_FUNCTION, train_ds, val_ds, test_ds, n_epochs=params["n_epochs"], learning_rate=LEARNING_RATE,
                                           callbacks=None, n_trials=N_TRIALS, num_classes=params["n_classes"], use_batchnorm=True)
+
+    logging.info(f"Starting experiment: {params['name']} - GreyWorld.")
+
     metrics["GreyWorld"] = run_experiment(GET_MODEL_FUNCTION, train_ds, val_ds, test_ds, n_epochs=params["n_epochs"], learning_rate=LEARNING_RATE,
                                           callbacks=None, n_trials=N_TRIALS, num_classes=params["n_classes"], cc_layer=grey_world_layer)
+
+    logging.info(f"Starting experiment: {params['name']} - GreyEdge.")
+
     metrics["GreyEdge"] = run_experiment(GET_MODEL_FUNCTION, train_ds, val_ds, test_ds, n_epochs=params["n_epochs"], learning_rate=LEARNING_RATE,
                                          callbacks=None, n_trials=N_TRIALS, num_classes=params["n_classes"], cc_layer=grey_edge_layer)
+
+    logging.info(f"Starting experiment: {params['name']} - WhitePatch.")
+
     metrics["WhitePatch"] = run_experiment(GET_MODEL_FUNCTION, train_ds, val_ds, test_ds, n_epochs=params["n_epochs"], learning_rate=LEARNING_RATE,
                                            callbacks=None, n_trials=N_TRIALS, num_classes=params["n_classes"], cc_layer=white_patch_layer)
+
+    logging.info(f"Starting experiment: {params['name']} - FC4.")
+
     metrics["FC4"] = run_experiment(GET_MODEL_FUNCTION, train_ds, val_ds, test_ds, n_epochs=params["n_epochs"],
                                     learning_rate=LEARNING_RATE, callbacks=None, n_trials=N_TRIALS, num_classes=params["n_classes"])
+
+    logging.info(
+        f"All experiments for {params['name']} finished. Saving data...")
 
     # Get the current timestamp
     timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
