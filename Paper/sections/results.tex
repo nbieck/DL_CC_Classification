@@ -44,11 +44,12 @@
     }
 ]{test_acc}{\ourssmallsummary}
 
+{\scriptsize
 \pgfplotstabletypeset[
     col sep=comma,
     columns={Algorithm, train_time, test_time, 
         train_loss, val_loss, test_acc},
-    column type = l,
+    column type = c,
     columns/Algorithm/.style={string type, column name=},
     columns/train_time/.style = {string type, column name ={Training (s)}},
     columns/test_time/.style = {string type, column name ={Testing (s)}},
@@ -60,6 +61,7 @@
     every column/.style = {column type/.add={|}{}},
     every last column/.style = {column type/.add={}{|}},
 ]{\ourssmallsummary}
+}
 
 \begin{figure}
     \centering
