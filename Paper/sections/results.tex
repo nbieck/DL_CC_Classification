@@ -1,0 +1,352 @@
+\section{Results}
+
+\def\pgfmathprintpmnumber#1#2{%
+    \pgfmathfloatparsenumber{\thisrow{#1}}%
+    \let\valueAvg=\pgfmathresult
+    \pgfmathfloatparsenumber{\thisrow{#2}}%
+    \let\valueStd=\pgfmathresult
+    \edef\valueAvg{\noexpand\pgfmathprintnumber[std, precision=2]{\valueAvg}}%
+    \edef\valueStd{\noexpand\pgfmathprintnumber[std, precision=2]{\valueStd}}%
+    \toks0=\expandafter{\valueAvg}%
+    \toks1=\expandafter{\valueStd}%
+    \edef\value{\the\toks0$\pm$\the\toks1}%
+}
+
+\pgfplotstableread{data/ours_17_flowers_summary.csv}{\ourssmallsummary}
+\pgfplotstablecreatecol[
+    create col/assign/.code={
+        \pgfmathprintpmnumber{Average Train Time}{Stdev Train Time}
+        \pgfkeyslet{/pgfplots/table/create col/next content}\value
+    }
+]{train_time}{\ourssmallsummary}
+\pgfplotstablecreatecol[
+    create col/assign/.code={
+        \pgfmathprintpmnumber{Average Test Time}{Stdev Test Time}
+        \pgfkeyslet{/pgfplots/table/create col/next content}\value
+    }
+]{test_time}{\ourssmallsummary}
+\pgfplotstablecreatecol[
+    create col/assign/.code={
+        \pgfmathprintpmnumber{Average Training Loss}{Stdev Training Loss}
+        \pgfkeyslet{/pgfplots/table/create col/next content}\value
+    }
+]{train_loss}{\ourssmallsummary}
+\pgfplotstablecreatecol[
+    create col/assign/.code={
+        \pgfmathprintpmnumber{Average Validation Loss}{Stdev Validation Loss}
+        \pgfkeyslet{/pgfplots/table/create col/next content}\value
+    }
+]{val_loss}{\ourssmallsummary}
+\pgfplotstablecreatecol[
+    create col/assign/.code={
+        \pgfmathprintpmnumber{Average Test Accuracy}{Stdev Test Accuracy}
+        \pgfkeyslet{/pgfplots/table/create col/next content}\value
+    }
+]{test_acc}{\ourssmallsummary}
+
+\pgfplotstabletypeset[
+    col sep=comma,
+    columns={Algorithm, train_time, test_time, 
+        train_loss, val_loss, test_acc},
+    column type = l,
+    columns/Algorithm/.style={string type, column name=},
+    columns/train_time/.style = {string type, column name ={Training (s)}},
+    columns/test_time/.style = {string type, column name ={Testing (s)}},
+    columns/train_loss/.style = {string type, column name ={Train Loss}},
+    columns/val_loss/.style = {string type, column name ={Val Loss}},
+    columns/test_acc/.style = {string type, column name ={Test Acc}},
+    every head row/.style = {before row=\hline, after row=\hline},
+    every last row/.style = {after row=\hline},
+    every column/.style = {column type/.add={|}{}},
+    every last column/.style = {column type/.add={}{|}},
+]{\ourssmallsummary}
+
+\begin{figure}
+    \centering
+    \begin{tabular}{cc}
+        \begin{tikzpicture}
+            \begin{axis}[
+                title = Training Time,
+                ylabel = Time/s,
+                ybar,
+                xtick=data,
+                xticklabels from table = {data/ours_17_flowers_summary.csv}{Algorithm},
+                x tick label style = {rotate=45, anchor=east},
+                error bars/y dir=both,
+                error bars/y explicit,
+                error bars/error bar style={black},
+                ymin=0,
+                width=0.49\textwidth,
+                bar width=6,
+            ]
+                \addplot+[
+                    draw=black,
+                    fill=ourblue,
+                ] table[
+                    col sep=comma,
+                    x expr=\coordindex,
+                    y=Average Train Time,
+                    y error=Stdev Train Time
+                ] {data/ours_17_flowers_summary.csv};
+                \addplot+[
+                    draw=black,
+                    fill=ourorange,
+                ] table[
+                    col sep=comma,
+                    x expr=\coordindex,
+                    y=train_time,
+                ] {data/vgg16_17_flowers_summary.csv};
+            \end{axis}
+        \end{tikzpicture}&
+        \begin{tikzpicture}
+            \begin{axis}[
+                title = Testing Time,
+                ybar,
+                xtick=data,
+                xticklabels from table = {data/ours_17_flowers_summary.csv}{Algorithm},
+                x tick label style = {rotate=45, anchor=east},
+                error bars/y dir=both,
+                error bars/y explicit,
+                error bars/error bar style={black},
+                ylabel=Time/s,
+                no markers,
+                ymin=0,
+                width=0.49\textwidth,
+                bar width=6,
+            ]
+                \addplot+[
+                    draw=black,
+                    fill=ourblue,
+                ] table[
+                    col sep=comma,
+                    x expr=\coordindex,
+                    y=Average Test Time,
+                    y error=Stdev Test Time
+                ] {data/ours_17_flowers_summary.csv};
+                \addplot+[
+                    draw=black,
+                    fill=ourorange,
+                ] table[
+                    col sep=comma,
+                    x expr=\coordindex,
+                    y=test_time,
+                ] {data/vgg16_17_flowers_summary.csv};
+            \end{axis}
+        \end{tikzpicture}\\
+        \begin{tikzpicture}
+            \begin{axis}[
+                title = Training Loss,
+                ylabel = Loss,
+                ybar,
+                xtick=data,
+                xticklabels from table = {data/ours_17_flowers_summary.csv}{Algorithm},
+                x tick label style = {rotate=45, anchor=east},
+                error bars/y dir=both,
+                error bars/y explicit,
+                error bars/error bar style={black},
+                ymin=0,
+                width=0.49\textwidth,
+                bar width=6,
+            ]
+                \addplot+[
+                    draw=black,
+                    fill=ourblue,
+                ] table[
+                    col sep=comma,
+                    x expr=\coordindex,
+                    y=Average Training Loss,
+                    y error=Stdev Training Loss
+                ] {data/ours_17_flowers_summary.csv};
+                \addplot+[
+                    draw=black,
+                    fill=ourorange,
+                ] table[
+                    col sep=comma,
+                    x expr=\coordindex,
+                    y=train_loss,
+                ] {data/vgg16_17_flowers_summary.csv};
+            \end{axis}
+        \end{tikzpicture}&
+        \begin{tikzpicture}
+            \begin{axis}[
+                title = Validation Loss,
+                ylabel = Loss,
+                ybar,
+                xtick=data,
+                xticklabels from table = {data/ours_17_flowers_summary.csv}{Algorithm},
+                x tick label style = {rotate=45, anchor=east},
+                error bars/y dir=both,
+                error bars/y explicit,
+                error bars/error bar style={black},
+                ymin=0,
+                width=0.49\textwidth,
+                bar width=6,
+            ]
+                \addplot+[
+                    draw=black,
+                    fill=ourblue,
+                ] table[
+                    col sep=comma,
+                    x expr=\coordindex,
+                    y=Average Validation Loss,
+                    y error=Stdev Validation Loss
+                ] {data/ours_17_flowers_summary.csv};
+                \addplot+[
+                    draw=black,
+                    fill=ourorange,
+                ] table[
+                    col sep=comma,
+                    x expr=\coordindex,
+                    y=val_loss,
+                ] {data/vgg16_17_flowers_summary.csv};
+            \end{axis}
+        \end{tikzpicture}\\
+        \begin{tikzpicture}
+            \begin{axis}[
+                title = Test Accuracy,
+                ylabel = Loss,
+                ybar,
+                xtick=data,
+                xticklabels from table = {data/ours_17_flowers_summary.csv}{Algorithm},
+                x tick label style = {rotate=45, anchor=east},
+                error bars/y dir=both,
+                error bars/y explicit,
+                error bars/error bar style={black},
+                ymin=0,
+                width=0.49\textwidth,
+                bar width=6,
+            ]
+                \addplot+[
+                    draw=black,
+                    fill=ourblue,
+                ] table[
+                    col sep=comma,
+                    x expr=\coordindex,
+                    y=Average Test Accuracy,
+                    y error=Stdev Test Accuracy,
+                ] {data/ours_17_flowers_summary.csv};
+                \addplot+[
+                    draw=black,
+                    fill=ourorange,
+                ] table[
+                    col sep=comma,
+                    x expr=\coordindex,
+                    y=test_acc,
+                ] {data/vgg16_17_flowers_summary.csv};
+            \end{axis}
+        \end{tikzpicture}
+    \end{tabular}
+    \caption{Comparison a comparison of the different color constancy methods using our model (blue) and VGG16 (orange).}
+    \label{fig:comparison_17_flowers}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+            title = Validation Loss over Time,
+            mark repeat=4,
+            xlabel = Epoch,
+            ylabel = Loss,
+            width=0.9\textwidth,
+            height=6cm,
+        ]
+            \addplot+[
+                sharp plot,
+            ] table[
+                x = Epoch,
+                y = Base,
+            ] {data/validation_loss_17_flowers.csv};
+            \addlegendentry{Base}
+            \addplot+[
+                sharp plot,
+            ] table[
+                x = Epoch,
+                y = BatchNorm,
+            ] {data/validation_loss_17_flowers.csv};
+            \addlegendentry{Batch Norm}
+            \addplot+[
+                sharp plot,
+            ] table[
+                x = Epoch,
+                y = FC4,
+            ] {data/validation_loss_17_flowers.csv};
+            \addlegendentry{FC\textsuperscript{4}}
+            \addplot+[
+                sharp plot,
+            ] table[
+                x = Epoch,
+                y = WhitePatch,
+            ] {data/validation_loss_17_flowers.csv};
+            \addlegendentry{White Patch}
+            \addplot+[
+                sharp plot,
+            ] table[
+                x = Epoch,
+                y = GreyEdge,
+            ] {data/validation_loss_17_flowers.csv};
+            \addlegendentry{Grey Edge}
+            \addplot+[
+                sharp plot,
+            ] table[
+                x = Epoch,
+                y = GreyWorld,
+            ] {data/validation_loss_17_flowers.csv};
+            \addlegendentry{Grey World}
+        \end{axis}
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \begin{axis}[
+            title = Validation Accuracy over Time,
+            mark repeat=4,
+            xlabel = Epoch,
+            ylabel = Accuracy,
+            legend pos=south east,
+        ]
+            \addplot+[
+                sharp plot,
+            ] table[
+                x = Epoch,
+                y = Base,
+            ] {data/validation_accuracy_17_flowers.csv};
+            \addlegendentry{Base}
+            \addplot+[
+                sharp plot,
+            ] table[
+                x = Epoch,
+                y = BatchNorm,
+            ] {data/validation_accuracy_17_flowers.csv};
+            \addlegendentry{Batch Norm}
+            \addplot+[
+                sharp plot,
+            ] table[
+                x = Epoch,
+                y = FC4,
+            ] {data/validation_accuracy_17_flowers.csv};
+            \addlegendentry{FC\textsuperscript{4}}
+            \addplot+[
+                sharp plot,
+            ] table[
+                x = Epoch,
+                y = WhitePatch,
+            ] {data/validation_accuracy_17_flowers.csv};
+            \addlegendentry{White Patch}
+            \addplot+[
+                sharp plot,
+            ] table[
+                x = Epoch,
+                y = GreyEdge,
+            ] {data/validation_accuracy_17_flowers.csv};
+            \addlegendentry{Grey Edge}
+            \addplot+[
+                sharp plot,
+            ] table[
+                x = Epoch,
+                y = GreyWorld,
+            ] {data/validation_accuracy_17_flowers.csv};
+            \addlegendentry{Grey World}
+        \end{axis}
+    \end{tikzpicture}
+    \caption{}
+    \label{fig:ours_17_flowers_history}
+\end{figure}
