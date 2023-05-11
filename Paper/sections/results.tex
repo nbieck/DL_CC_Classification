@@ -1,21 +1,65 @@
 \section{Results}
 
+\def\pgfmathprintpmnumber#1#2{%
+    \pgfmathfloatparsenumber{\thisrow{#1}}%
+    \let\valueAvg=\pgfmathresult
+    \pgfmathfloatparsenumber{\thisrow{#2}}%
+    \let\valueStd=\pgfmathresult
+    \edef\valueAvg{\noexpand\pgfmathprintnumber[std, precision=2]{\valueAvg}}%
+    \edef\valueStd{\noexpand\pgfmathprintnumber[std, precision=2]{\valueStd}}%
+    \toks0=\expandafter{\valueAvg}%
+    \toks1=\expandafter{\valueStd}%
+    \edef\value{\the\toks0$\pm$\the\toks1}%
+}
+
+\pgfplotstableread{data/ours_17_flowers_summary.csv}{\ourssmallsummary}
+\pgfplotstablecreatecol[
+    create col/assign/.code={
+        \pgfmathprintpmnumber{Average Train Time}{Stdev Train Time}
+        \pgfkeyslet{/pgfplots/table/create col/next content}\value
+    }
+]{train_time}{\ourssmallsummary}
+\pgfplotstablecreatecol[
+    create col/assign/.code={
+        \pgfmathprintpmnumber{Average Test Time}{Stdev Test Time}
+        \pgfkeyslet{/pgfplots/table/create col/next content}\value
+    }
+]{test_time}{\ourssmallsummary}
+\pgfplotstablecreatecol[
+    create col/assign/.code={
+        \pgfmathprintpmnumber{Average Training Loss}{Stdev Training Loss}
+        \pgfkeyslet{/pgfplots/table/create col/next content}\value
+    }
+]{train_loss}{\ourssmallsummary}
+\pgfplotstablecreatecol[
+    create col/assign/.code={
+        \pgfmathprintpmnumber{Average Validation Loss}{Stdev Validation Loss}
+        \pgfkeyslet{/pgfplots/table/create col/next content}\value
+    }
+]{val_loss}{\ourssmallsummary}
+\pgfplotstablecreatecol[
+    create col/assign/.code={
+        \pgfmathprintpmnumber{Average Test Accuracy}{Stdev Test Accuracy}
+        \pgfkeyslet{/pgfplots/table/create col/next content}\value
+    }
+]{test_acc}{\ourssmallsummary}
+
 \pgfplotstabletypeset[
     col sep=comma,
-    columns={Algorithm, Average Train Time, Average Test Time, 
-        Average Training Loss, Average Validation Loss, Average Test Accuracy},
+    columns={Algorithm, train_time, test_time, 
+        train_loss, val_loss, test_acc},
     column type = l,
     columns/Algorithm/.style={string type, column name=},
-    columns/Average Train Time/.style = {column name ={Training (s)}},
-    columns/Average Test Time/.style = {column name ={Testing (s)}},
-    columns/Average Training Loss/.style = {column name ={Train Loss}},
-    columns/Average Validation Loss/.style = {column name ={Val Loss}},
-    columns/Average Test Accuracy/.style = {column name ={Test Acc}},
+    columns/train_time/.style = {string type, column name ={Training (s)}},
+    columns/test_time/.style = {string type, column name ={Testing (s)}},
+    columns/train_loss/.style = {string type, column name ={Train Loss}},
+    columns/val_loss/.style = {string type, column name ={Val Loss}},
+    columns/test_acc/.style = {string type, column name ={Test Acc}},
     every head row/.style = {before row=\hline, after row=\hline},
     every last row/.style = {after row=\hline},
     every column/.style = {column type/.add={|}{}},
-    every last column/.style = {column type/.add={}{|}}
-]{data/ours_17_flowers_summary.csv}
+    every last column/.style = {column type/.add={}{|}},
+]{\ourssmallsummary}
 
 \begin{figure}
     \centering
@@ -68,6 +112,7 @@
                 no markers,
                 ymin=0,
                 width=0.49\textwidth,
+                bar width=6,
             ]
                 \addplot+[
                     draw=black,
@@ -196,12 +241,15 @@
 \end{figure}
 
 \begin{figure}
+    \centering
     \begin{tikzpicture}
         \begin{axis}[
             title = Validation Loss over Time,
             mark repeat=4,
             xlabel = Epoch,
             ylabel = Loss,
+            width=0.9\textwidth,
+            height=6cm,
         ]
             \addplot+[
                 sharp plot,
@@ -247,7 +295,6 @@
             \addlegendentry{Grey World}
         \end{axis}
     \end{tikzpicture}
-
     \begin{tikzpicture}
         \begin{axis}[
             title = Validation Accuracy over Time,
@@ -300,6 +347,6 @@
             \addlegendentry{Grey World}
         \end{axis}
     \end{tikzpicture}
-    \caption{A bar chart to test with.}
-    \label{fig:testbar}
+    \caption{}
+    \label{fig:ours_17_flowers_history}
 \end{figure}
