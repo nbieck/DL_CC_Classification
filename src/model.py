@@ -2,8 +2,11 @@ from tensorflow.keras import Sequential
 from tensorflow.keras.layers import (Conv2D, Dense, Dropout, Flatten,
                                      MaxPooling2D, ReLU, Rescaling, BatchNormalization, RandomFlip, RandomRotation,
                                      RandomTranslation, RandomZoom)
-
-from src.utils import IMG_WIDTH, IMG_HEIGHT
+import tensorflow as tf
+from keras.applications import VGG16
+from src.utils import IMG_WIDTH, IMG_HEIGHT, LEARNING_RATE
+from keras import models
+from keras import layers
 
 
 def get_data_augmentation_layer():
@@ -47,4 +50,52 @@ def get_model(num_classes: int, use_batchnorm: bool = False, cc_layer=None):
     model.add(ReLU())
     model.add(Dropout(0.5))
     model.add(Dense(num_classes, activation="softmax"))
+
+    model.add(tf.keras.layers.Conv2D(3, 5, padding="same", input_shape=(IMG_HEIGHT, IMG_WIDTH, 3)))
+    model.add(tf.keras.layers.BatchNormalization())
+    model.add(tf.keras.layers.ReLU())
+    return model
+
+def get_vggmodel(num_classes: int, use_batchnorm: bool = False, cc_layer=None):
+
+    # Load the VGG model
+    vgg_conv = VGG16(weights='imagenet', include_top=False, input_shape=(IMG_HEIGHT, IMG_WIDTH, 3))
+
+    # Freeze all the layers except for the last layer: 
+    for layer in vgg_conv.layers[:-4]:
+        layer.trainable = False
+    
+    # Create the model
+    model = models.Sequential()
+
+    model.add(Rescaling(1./255))
+
+
+    if use_batchnorm:
+        model.add(Conv2D(3, 5, padding="same", input_shape=(IMG_HEIGHT, IMG_WIDTH, 3)))
+        model.add(BatchNormalization())
+        model.add(ReLU())
+
+    if cc_layer != None:
+        # Add cc layers
+        model.add(cc_layer)
+    
+    
+    # Add the vgg convolutional base model
+    model.add(vgg_conv)
+
+    # Add new layers
+    model.add(Flatten())
+    model.add(Dense(1024, activation='relu'))
+    model.add(Dropout(0.5))
+    model.add(Dense(num_classes, activation='softmax'))
+    
+    # Compile the model
+    model.compile(loss=tf.keras.losses.SparseCategoricalCrossentropy(),
+                optimizer=tf.keras.optimizers.RMSprop(learning_rate=LEARNING_RATE),
+                metrics=['accuracy'])
+
+    # Build the model
+    model.build((None, IMG_HEIGHT, IMG_WIDTH, 3))
+    
     return model

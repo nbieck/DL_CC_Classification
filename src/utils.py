@@ -9,6 +9,7 @@ IMG_HEIGHT = 180
 IMG_WIDTH = 180
 BATCH_SIZE = 32
 AUTOTUNE = tf.data.AUTOTUNE
+LEARNING_RATE = 1e-3
 
 
 def load_ds(ds_name: str, cc: bool):
