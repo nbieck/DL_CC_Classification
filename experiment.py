@@ -43,16 +43,16 @@ for params in [PARAMS_17F, PARAMS_102F]:
     # Run experiments
     metrics = {}
     metrics["Base"] = run_experiment(
-        get_model, train_ds, val_ds, test_ds, n_epochs=params["n_epochs"], learning_rate=LEARNING_RATE, callbacks=None, n_trials=N_TRIALS, num_classes=params["n_classes"])
-    metrics["BatchNorm"] = run_experiment(get_model, train_ds, val_ds, test_ds, n_epochs=params["n_epochs"], learning_rate=LEARNING_RATE,
+        GET_MODEL_FUNCTION, train_ds, val_ds, test_ds, n_epochs=params["n_epochs"], learning_rate=LEARNING_RATE, callbacks=None, n_trials=N_TRIALS, num_classes=params["n_classes"])
+    metrics["BatchNorm"] = run_experiment(GET_MODEL_FUNCTION, train_ds, val_ds, test_ds, n_epochs=params["n_epochs"], learning_rate=LEARNING_RATE,
                                           callbacks=None, n_trials=N_TRIALS, num_classes=params["n_classes"], use_batchnorm=True)
-    metrics["GreyWorld"] = run_experiment(get_model, train_ds, val_ds, test_ds, n_epochs=params["n_epochs"], learning_rate=LEARNING_RATE,
+    metrics["GreyWorld"] = run_experiment(GET_MODEL_FUNCTION, train_ds, val_ds, test_ds, n_epochs=params["n_epochs"], learning_rate=LEARNING_RATE,
                                           callbacks=None, n_trials=N_TRIALS, num_classes=params["n_classes"], cc_layer=grey_world_layer)
-    metrics["GreyEdge"] = run_experiment(get_model, train_ds, val_ds, test_ds, n_epochs=params["n_epochs"], learning_rate=LEARNING_RATE,
+    metrics["GreyEdge"] = run_experiment(GET_MODEL_FUNCTION, train_ds, val_ds, test_ds, n_epochs=params["n_epochs"], learning_rate=LEARNING_RATE,
                                          callbacks=None, n_trials=N_TRIALS, num_classes=params["n_classes"], cc_layer=grey_edge_layer)
-    metrics["WhitePatch"] = run_experiment(get_model, train_ds, val_ds, test_ds, n_epochs=params["n_epochs"], learning_rate=LEARNING_RATE,
+    metrics["WhitePatch"] = run_experiment(GET_MODEL_FUNCTION, train_ds, val_ds, test_ds, n_epochs=params["n_epochs"], learning_rate=LEARNING_RATE,
                                            callbacks=None, n_trials=N_TRIALS, num_classes=params["n_classes"], cc_layer=white_patch_layer)
-    metrics["FC4"] = run_experiment(get_model, train_ds, val_ds, test_ds, n_epochs=params["n_epochs"],
+    metrics["FC4"] = run_experiment(GET_MODEL_FUNCTION, train_ds, val_ds, test_ds, n_epochs=params["n_epochs"],
                                     learning_rate=LEARNING_RATE, callbacks=None, n_trials=N_TRIALS, num_classes=params["n_classes"])
 
     # Get the current timestamp
