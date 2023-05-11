@@ -10,12 +10,12 @@ import time
 PARAMS_17F = {
     "name": "17flowers",
     "n_classes": 17,
-    "n_epochs": 50
+    "n_epochs": 100
 }
 PARAMS_102F = {
     "name": "102flowers",
     "n_classes": 102,
-    "n_epochs": 100
+    "n_epochs": 200
 }
 LEARNING_RATE = 1e-3
 N_TRIALS = 10
