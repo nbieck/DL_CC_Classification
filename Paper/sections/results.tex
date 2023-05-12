@@ -15,6 +15,11 @@
 
 \subsection{17 Flowers}
 
+For the small dataset, color corrected input appears to perform on par, or even slightly worse than simply using the unprocessed image.
+With our model we observed a drop in accuracy of 10\% when using the Grey Edge algorithm to preprocess. It can also be seen that,
+unsurprisingly, VGG16 outperforms our model in all cases. It does however train significantly longer at both training and testing time.
+An overall visual comparison is presented in Figure \ref{fig:comparison_17_flowers}.
+
 %load the data for our model with 17 flowers
 \pgfplotstableread{data/ours_17_flowers_summary.csv}{\ourssmallsummary}
 \begin{table}
@@ -65,7 +70,8 @@
         every column/.style = {column type/.add={|}{}},
         every last column/.style = {column type/.add={}{|}},
     ]{\ourssmallsummary}
-    \caption{Summary data obtained from running our model on the 17 flowers dataset.}
+    \caption{Average and Standard deviation of time to train/test, as well as final training and validation losses, and testing accuracy
+    over all trials run with our model on the 17 flowers dataset.}
     \label{table:ours_17_flowers}
 \end{table}
 
@@ -118,7 +124,8 @@
         every column/.style = {column type/.add={|}{}},
         every last column/.style = {column type/.add={}{|}},
     ]{\vggsmallsummary}
-    \caption{Summary data obtained from running VGG16 with the 17 flowers dataset.}
+    \caption{Average and Standard deviation of time to train/test, as well as final training and validation losses, and testing accuracy
+    over all trials run with VGG16 on the 17 flowers dataset.}
     \label{table:vgg_17_flowers}
 \end{table}
 
@@ -302,11 +309,16 @@
             \end{axis}
         \end{tikzpicture}
     \end{tabular}
-    \caption{Comparison a comparison of the different color constancy methods on the 17 flower dataset using our model (blue) and VGG16 (orange).}
+    \caption{Comparison of the different color constancy methods on the 17 flower dataset using our model (blue) and VGG16 (orange). Data shown averaged over all runs, with the 
+    standard deviation given as error bars.}
     \label{fig:comparison_17_flowers}
 \end{figure}
 
-\def\historygraphheight{4.395cm}
+\def\historygraphheight{5cm}
+
+When observing the training progress shown in Figures \ref{fig:ours_17_flowers_history} and \ref{table:vgg_17_flowers}, we again note that there are no particularly
+egregious differences between the color constancy approaches and the simple base model. We do however note that part of the reason for the long training time of VGG16
+is our choice to run all trials for the same number of epochs, with VGG16 appearing to converge around epoch 10, while our model does make use of all the time given.
 
 %load all tables for the following graphs so we don't need to load the file for each one
 \pgfplotstableread{data/train_loss_17_flowers.csv}\ourssmalltrainloss
