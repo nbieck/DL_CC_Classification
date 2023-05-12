@@ -15,104 +15,110 @@
 
 %load the data for our model with 17 flowers
 \pgfplotstableread{data/ours_17_flowers_summary.csv}{\ourssmallsummary}
-{\scriptsize
-\pgfplotstabletypeset[
-    col sep=comma,
-    columns={Algorithm, train_time, test_time, 
-        train_loss, val_loss, test_acc},
-    column type = c,
-    columns/Algorithm/.style={string type, column name=},
-    columns/train_time/.style = {string type, column name ={Training (s)}},
-    create on use/train_time/.style={%
-        create col/assign/.code={%
-            \pgfmathprintpmnumber{train_time_avg}{train_time_std}
-            \pgfkeyslet{/pgfplots/table/create col/next content}\value
-        }
-    },
-    columns/test_time/.style = {string type, column name ={Testing (s)}},
-    create on use/test_time/.style={%
-        create col/assign/.code={%
-            \pgfmathprintpmnumber{test_time_avg}{test_time_std}
-            \pgfkeyslet{/pgfplots/table/create col/next content}\value
-        }
-    },
-    columns/train_loss/.style = {string type, column name ={Train Loss}},
-    create on use/train_loss/.style={%
-        create col/assign/.code={%
-            \pgfmathprintpmnumber{train_loss_avg}{train_loss_std}
-            \pgfkeyslet{/pgfplots/table/create col/next content}\value
-        }
-    },
-    columns/val_loss/.style = {string type, column name ={Val Loss}},
-    create on use/val_loss/.style={%
-        create col/assign/.code={%
-            \pgfmathprintpmnumber{val_loss_avg}{val_loss_std}
-            \pgfkeyslet{/pgfplots/table/create col/next content}\value
-        }
-    },
-    columns/test_acc/.style = {string type, column name ={Test Acc}},
-    create on use/test_acc/.style={%
-        create col/assign/.code={%
-            \pgfmathprintpmnumber{test_acc_avg}{test_acc_std}
-            \pgfkeyslet{/pgfplots/table/create col/next content}\value
-        }
-    },
-    every head row/.style = {before row=\hline, after row=\hline},
-    every last row/.style = {after row=\hline},
-    every column/.style = {column type/.add={|}{}},
-    every last column/.style = {column type/.add={}{|}},
-]{\ourssmallsummary}
-}
+\begin{table}
+    \scriptsize
+    \pgfplotstabletypeset[
+        col sep=comma,
+        columns={Algorithm, train_time, test_time, 
+            train_loss, val_loss, test_acc},
+        column type = c,
+        columns/Algorithm/.style={string type, column name=},
+        columns/train_time/.style = {string type, column name ={Training (s)}},
+        create on use/train_time/.style={%
+            create col/assign/.code={%
+                \pgfmathprintpmnumber{train_time_avg}{train_time_std}
+                \pgfkeyslet{/pgfplots/table/create col/next content}\value
+            }
+        },
+        columns/test_time/.style = {string type, column name ={Testing (s)}},
+        create on use/test_time/.style={%
+            create col/assign/.code={%
+                \pgfmathprintpmnumber{test_time_avg}{test_time_std}
+                \pgfkeyslet{/pgfplots/table/create col/next content}\value
+            }
+        },
+        columns/train_loss/.style = {string type, column name ={Train Loss}},
+        create on use/train_loss/.style={%
+            create col/assign/.code={%
+                \pgfmathprintpmnumber{train_loss_avg}{train_loss_std}
+                \pgfkeyslet{/pgfplots/table/create col/next content}\value
+            }
+        },
+        columns/val_loss/.style = {string type, column name ={Val Loss}},
+        create on use/val_loss/.style={%
+            create col/assign/.code={%
+                \pgfmathprintpmnumber{val_loss_avg}{val_loss_std}
+                \pgfkeyslet{/pgfplots/table/create col/next content}\value
+            }
+        },
+        columns/test_acc/.style = {string type, column name ={Test Acc}},
+        create on use/test_acc/.style={%
+            create col/assign/.code={%
+                \pgfmathprintpmnumber{test_acc_avg}{test_acc_std}
+                \pgfkeyslet{/pgfplots/table/create col/next content}\value
+            }
+        },
+        every head row/.style = {before row=\hline, after row=\hline},
+        every last row/.style = {after row=\hline},
+        every column/.style = {column type/.add={|}{}},
+        every last column/.style = {column type/.add={}{|}},
+    ]{\ourssmallsummary}
+    \caption{Summary data obtained from running our model on the 17 flowers dataset.}
+    \label{table:ours_17_flowers}
+\end{table}
 
 \pgfplotstableread{data/vgg16_17_flowers_summary.csv}{\vggsmallsummary}
-{\tiny
-\pgfplotstabletypeset[
-    col sep=comma,
-    columns={Algorithm, train_time, test_time, 
-        train_loss, val_loss, test_acc},
-    column type = c,
-    columns/Algorithm/.style={string type, column name=},
-    columns/train_time/.style = {string type, column name ={Training (s)}},
-    create on use/train_time/.style={%
-        create col/assign/.code={%
-            \pgfmathprintpmnumber{train_time_avg}{train_time_std}
-            \pgfkeyslet{/pgfplots/table/create col/next content}\value
-        }
-    },
-    columns/test_time/.style = {string type, column name ={Testing (s)}},
-    create on use/test_time/.style={%
-        create col/assign/.code={%
-            \pgfmathprintpmnumber{test_time_avg}{test_time_std}
-            \pgfkeyslet{/pgfplots/table/create col/next content}\value
-        }
-    },
-    columns/train_loss/.style = {string type, column name ={Train Loss}},
-    create on use/train_loss/.style={%
-        create col/assign/.code={%
-            \pgfmathprintpmnumber{train_loss_avg}{train_loss_std}
-            \pgfkeyslet{/pgfplots/table/create col/next content}\value
-        }
-    },
-    columns/val_loss/.style = {string type, column name ={Val Loss}},
-    create on use/val_loss/.style={%
-        create col/assign/.code={%
-            \pgfmathprintpmnumber{val_loss_avg}{val_loss_std}
-            \pgfkeyslet{/pgfplots/table/create col/next content}\value
-        }
-    },
-    columns/test_acc/.style = {string type, column name ={Test Acc}},
-    create on use/test_acc/.style={%
-        create col/assign/.code={%
-            \pgfmathprintpmnumber{test_acc_avg}{test_acc_std}
-            \pgfkeyslet{/pgfplots/table/create col/next content}\value
-        }
-    },
-    every head row/.style = {before row=\hline, after row=\hline},
-    every last row/.style = {after row=\hline},
-    every column/.style = {column type/.add={|}{}},
-    every last column/.style = {column type/.add={}{|}},
-]{\vggsmallsummary}
-}
+\begin{table}
+    \tiny
+    \pgfplotstabletypeset[
+        col sep=comma,
+        columns={Algorithm, train_time, test_time, 
+            train_loss, val_loss, test_acc},
+        column type = c,
+        columns/Algorithm/.style={string type, column name=},
+        columns/train_time/.style = {string type, column name ={Training (s)}},
+        create on use/train_time/.style={%
+            create col/assign/.code={%
+                \pgfmathprintpmnumber{train_time_avg}{train_time_std}
+                \pgfkeyslet{/pgfplots/table/create col/next content}\value
+            }
+        },
+        columns/test_time/.style = {string type, column name ={Testing (s)}},
+        create on use/test_time/.style={%
+            create col/assign/.code={%
+                \pgfmathprintpmnumber{test_time_avg}{test_time_std}
+                \pgfkeyslet{/pgfplots/table/create col/next content}\value
+            }
+        },
+        columns/train_loss/.style = {string type, column name ={Train Loss}},
+        create on use/train_loss/.style={%
+            create col/assign/.code={%
+                \pgfmathprintpmnumber{train_loss_avg}{train_loss_std}
+                \pgfkeyslet{/pgfplots/table/create col/next content}\value
+            }
+        },
+        columns/val_loss/.style = {string type, column name ={Val Loss}},
+        create on use/val_loss/.style={%
+            create col/assign/.code={%
+                \pgfmathprintpmnumber{val_loss_avg}{val_loss_std}
+                \pgfkeyslet{/pgfplots/table/create col/next content}\value
+            }
+        },
+        columns/test_acc/.style = {string type, column name ={Test Acc}},
+        create on use/test_acc/.style={%
+            create col/assign/.code={%
+                \pgfmathprintpmnumber{test_acc_avg}{test_acc_std}
+                \pgfkeyslet{/pgfplots/table/create col/next content}\value
+            }
+        },
+        every head row/.style = {before row=\hline, after row=\hline},
+        every last row/.style = {after row=\hline},
+        every column/.style = {column type/.add={|}{}},
+        every last column/.style = {column type/.add={}{|}},
+    ]{\vggsmallsummary}
+    \caption{Summary data obtained from running VGG16 with the 17 flowers dataset.}
+    \label{table:vgg_17_flowers}
+\end{table}
 
 \begin{figure}
     \centering
@@ -779,54 +785,57 @@
 
 %load the data for our model with 102 flowers
 \pgfplotstableread{data/ours_102_flowers_summary.csv}{\ourslargesummary}
-{\scriptsize
-\pgfplotstabletypeset[
-    col sep=comma,
-    columns={Algorithm, train_time, test_time, 
-        train_loss, val_loss, test_acc},
-    column type = c,
-    columns/Algorithm/.style={string type, column name=},
-    columns/train_time/.style = {string type, column name ={Training (s)}},
-    create on use/train_time/.style={%
-        create col/assign/.code={%
-            \pgfmathprintpmnumber{train_time_avg}{train_time_std}
-            \pgfkeyslet{/pgfplots/table/create col/next content}\value
-        }
-    },
-    columns/test_time/.style = {string type, column name ={Testing (s)}},
-    create on use/test_time/.style={%
-        create col/assign/.code={%
-            \pgfmathprintpmnumber{test_time_avg}{test_time_std}
-            \pgfkeyslet{/pgfplots/table/create col/next content}\value
-        }
-    },
-    columns/train_loss/.style = {string type, column name ={Train Loss}},
-    create on use/train_loss/.style={%
-        create col/assign/.code={%
-            \pgfmathprintpmnumber{train_loss_avg}{train_loss_std}
-            \pgfkeyslet{/pgfplots/table/create col/next content}\value
-        }
-    },
-    columns/val_loss/.style = {string type, column name ={Val Loss}},
-    create on use/val_loss/.style={%
-        create col/assign/.code={%
-            \pgfmathprintpmnumber{val_loss_avg}{val_loss_std}
-            \pgfkeyslet{/pgfplots/table/create col/next content}\value
-        }
-    },
-    columns/test_acc/.style = {string type, column name ={Test Acc}},
-    create on use/test_acc/.style={%
-        create col/assign/.code={%
-            \pgfmathprintpmnumber{test_acc_avg}{test_acc_std}
-            \pgfkeyslet{/pgfplots/table/create col/next content}\value
-        }
-    },
-    every head row/.style = {before row=\hline, after row=\hline},
-    every last row/.style = {after row=\hline},
-    every column/.style = {column type/.add={|}{}},
-    every last column/.style = {column type/.add={}{|}},
-]{\ourslargesummary}
-}
+\begin{table}
+    \scriptsize
+    \pgfplotstabletypeset[
+        col sep=comma,
+        columns={Algorithm, train_time, test_time, 
+            train_loss, val_loss, test_acc},
+        column type = c,
+        columns/Algorithm/.style={string type, column name=},
+        columns/train_time/.style = {string type, column name ={Training (s)}},
+        create on use/train_time/.style={%
+            create col/assign/.code={%
+                \pgfmathprintpmnumber{train_time_avg}{train_time_std}
+                \pgfkeyslet{/pgfplots/table/create col/next content}\value
+            }
+        },
+        columns/test_time/.style = {string type, column name ={Testing (s)}},
+        create on use/test_time/.style={%
+            create col/assign/.code={%
+                \pgfmathprintpmnumber{test_time_avg}{test_time_std}
+                \pgfkeyslet{/pgfplots/table/create col/next content}\value
+            }
+        },
+        columns/train_loss/.style = {string type, column name ={Train Loss}},
+        create on use/train_loss/.style={%
+            create col/assign/.code={%
+                \pgfmathprintpmnumber{train_loss_avg}{train_loss_std}
+                \pgfkeyslet{/pgfplots/table/create col/next content}\value
+            }
+        },
+        columns/val_loss/.style = {string type, column name ={Val Loss}},
+        create on use/val_loss/.style={%
+            create col/assign/.code={%
+                \pgfmathprintpmnumber{val_loss_avg}{val_loss_std}
+                \pgfkeyslet{/pgfplots/table/create col/next content}\value
+            }
+        },
+        columns/test_acc/.style = {string type, column name ={Test Acc}},
+        create on use/test_acc/.style={%
+            create col/assign/.code={%
+                \pgfmathprintpmnumber{test_acc_avg}{test_acc_std}
+                \pgfkeyslet{/pgfplots/table/create col/next content}\value
+            }
+        },
+        every head row/.style = {before row=\hline, after row=\hline},
+        every last row/.style = {after row=\hline},
+        every column/.style = {column type/.add={|}{}},
+        every last column/.style = {column type/.add={}{|}},
+    ]{\ourslargesummary}
+    \caption{Summary data obtained from running our model on the 102 flowers dataset.}
+    \label{table:ours_102_flowers}
+\end{table}
 
 \begin{figure}
     \centering
