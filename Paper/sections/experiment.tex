@@ -58,6 +58,14 @@ All of these algorithms were reimplemented by us. Notably, based on the recommen
 after color adjustment we rescale all results such that the top 5\% of values (across all channels) will be clipped to
 the maximum intensity of 1.
 
+\subsubsection{Learning Based Model}
+
+To compare the model with our method, we used FC4\cite{hu2017fc}. 
+This fully convolutional neural network estimates the image's global illumination color and converts the normalized global illumination with canonical light source color.
+
+We will utilize this model with vgg16 as comparison with our classifiers. 
+We are using this model because it has achieved higher color correction accuracy than the present state-of-the-art method. Additionally, FC4 learns the informative area for color constancy throughout the image. This lets the model to have no limitation to the possible range of illumination colors, which we considered this model to be the best practice to implementing before the vgg16 convolutional neural network architecture for the comparison with our classification models.
+
 \subsection{Classification models}
 
 Two classification models were used for the classification stage of the pipeline: Pre-trained VGG16 and our own implemented network. % FUNY-NET
