@@ -39,7 +39,7 @@ easily be contrasted with other research in this area.
 \end{figure}
 
 In order to have a wider spread of examined methods, we both make use of state-of-the art 
-learning based methods (in this case represented by FC\textsuperscript{4}\cite{hu2017fc}), as well as classical simpler methods 
+learning based methods, as well as classical simpler methods 
 like White-Patch, Grey-World \cite{EbnerConstancy} and Grey-Edge \cite{van2005color}.
 A comparison of these can be found in \ref{fig:cc_comparison}.
 
@@ -60,11 +60,12 @@ the maximum intensity of 1.
 
 \subsubsection{Learning Based Model}
 
-To compare the model with our method, we used FC4\cite{hu2017fc}. 
-This fully convolutional neural network estimates the image's global illumination color and converts the normalized global illumination with canonical light source color.
+We use the FC\textsuperscript{4} model\cite{hu2017fc} as our representative for the deep learning based models. This is a considerably more complicated approach
+than the statistical methods listed above, as it makes use of deep convolutional networks.
 
-We will utilize this model with vgg16 as comparison with our classifiers. 
-We are using this model because it has achieved higher color correction accuracy than the present state-of-the-art method. Additionally, FC4 learns the informative area for color constancy throughout the image. This lets the model to have no limitation to the possible range of illumination colors, which we considered this model to be the best practice to implementing before the vgg16 convolutional neural network architecture for the comparison with our classification models.
+We chose FC\textsuperscript{4}, as it can provide us with high quality outputs, while still being reasonably simple to use within our framework. While newer
+models might perform slightly better when evaluated purely on their results, we judged that FC\textsuperscript{4} should already provide a sufficiently large\
+delta to the statistical methods to give an indication of whether this approach is worth pursuing.
 
 \subsection{Classification models}
 
