@@ -1,18 +1,5 @@
 \section{Results}
 
-%LaTeX magic that lets me create a new column in a table with the format a \pm b
-\def\pgfmathprintpmnumber#1#2{%
-    \pgfmathfloatparsenumber{\thisrow{#1}}%
-    \let\valueAvg=\pgfmathresult
-    \pgfmathfloatparsenumber{\thisrow{#2}}%
-    \let\valueStd=\pgfmathresult
-    \edef\valueAvg{\noexpand\pgfmathprintnumber[std, precision=2]{\valueAvg}}%
-    \edef\valueStd{\noexpand\pgfmathprintnumber[std, precision=2]{\valueStd}}%
-    \toks0=\expandafter{\valueAvg}%
-    \toks1=\expandafter{\valueStd}%
-    \edef\value{\the\toks0$\pm$\the\toks1}%
-}
-
 \subsection{17 Flowers}
 
 For the small dataset, color corrected input appears to perform on par, or even slightly worse than simply using the unprocessed image.
@@ -22,7 +9,7 @@ An overall visual comparison is presented in Figure \ref{fig:comparison_17_flowe
 
 %load the data for our model with 17 flowers
 \pgfplotstableread{data/ours_17_flowers_summary.csv}{\ourssmallsummary}
-\begin{table}
+\begin{table}[h]
     \scriptsize
     \pgfplotstabletypeset[
         col sep=comma,

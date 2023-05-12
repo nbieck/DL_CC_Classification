@@ -1,0 +1,44 @@
+\ProvidesPackage{Paper}
+
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\pgfplotstableset{col sep=comma}
+\usetikzlibrary{plotmarks}
+
+\definecolor{ourorange}{RGB}{230,159,0}
+\definecolor{ourblue}{RGB}{86,180,233}
+\definecolor{ourgreen}{RGB}{0,158,115}
+\definecolor{ouryellow}{RGB}{240,228,66}
+\definecolor{ourdarkblue}{RGB}{0,114,178}
+\definecolor{ourdarkorange}{RGB}{213,94,0}
+\definecolor{ourpurple}{RGB}{204,121,167}
+
+\pgfplotsset{
+    compat=1.17,
+    filter discard warning=false,
+    cycle list={
+        {ourorange, mark=*},
+        {ourblue, mark=+},
+        {ourgreen, mark=x},
+        {ourpurple, mark=o},
+        {ourdarkblue, mark=square},
+        {ourdarkorange, mark=triangle},
+        {outyellow, mark=diamond},
+    },
+    every mark/.append style={solid},
+}
+
+%LaTeX magic that lets me create a new column in a table with the format a \pm b
+\def\pgfmathprintpmnumber#1#2{%
+    \pgfmathfloatparsenumber{\thisrow{#1}}%
+    \let\valueAvg=\pgfmathresult
+    \pgfmathfloatparsenumber{\thisrow{#2}}%
+    \let\valueStd=\pgfmathresult
+    \edef\valueAvg{\noexpand\pgfmathprintnumber[std, precision=2]{\valueAvg}}%
+    \edef\valueStd{\noexpand\pgfmathprintnumber[std, precision=2]{\valueStd}}%
+    \toks0=\expandafter{\valueAvg}%
+    \toks1=\expandafter{\valueStd}%
+    \edef\value{\the\toks0$\pm$\the\toks1}%
+}
