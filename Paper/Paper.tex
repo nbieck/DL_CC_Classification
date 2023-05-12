@@ -39,10 +39,10 @@
 \titlerunning{Color Constancy Classification}
 
 \author{
-    Uzairu Abubakar\inst{1} \and 
-    Niklas Bieck\inst{1} \and 
-    Fabiano Junior Maia Manschein\inst{1} \and 
-    Yuya Takagi\inst{1} \and 
+    Uzairu Abubakar\inst{1} \and
+    Niklas Bieck\inst{1} \and
+    Fabiano Junior Maia Manschein\inst{1} \and
+    Yuya Takagi\inst{1} \and
     Damien Muselet\inst{1}\orcidID{0000-0001-7803-1171}
 }
 \authorrunning{U. Abubakar et al.}
@@ -57,14 +57,17 @@
 \maketitle
 
 \begin{abstract}
-Color Constancy, attempting to determine the color of the light in a particular image, and then 
-modifying the color to match what it would have been under some reference illuminant, is a widely studied topic.
-One of the main claims that is made as to whether this is a useful endeavor is that it could aid in the training
-of other image processing, as the light color is removed as a point of variation that needs to be learned.
-
-We seek to validate this point by comparing the performance and training times of image classification models on 
-a corpus of images of flowers (chosen because of the importance of colour in their identification), with or without
-having applied Color Constancy methods as preprocessing.
+    Color constancy, the process of determining the true color of light in an image
+    and adjusting it to match a reference illuminant, is a widely researched area.
+    A key argument in favor of this technique is its potential to enhance the training
+    of other image processing techniques by eliminating the need to learn variations
+    caused by different lighting conditions. To validate this claim, we conduct a
+    comprehensive analysis by comparing the performance and training times of image
+    classification models using a dataset of flower images. They are particularly
+    suitable for this study due to the crucial role of color in their identification.
+    The comparison is conducted with and without the application of color constancy
+    methods as a preprocessing step. We also compare the results with the use of batch
+    normalization as an alternative to color constancy. \textcolor{red}{Results show that...}
 \end{abstract}
 
 % Here's my suggested structure for the paper. Subject to change, specially titles.
