@@ -59,7 +59,7 @@ def load_ds(ds_name: str, cc: bool):
     return train_ds, val_ds, test_ds
 
 
-def run_experiment(get_model, train_ds, val_ds, test_ds, n_epochs: int, learning_rate: float, callbacks: list, n_trials: int = 10, **kwargs):
+def run_experiment(get_model, train_ds, val_ds, test_ds, n_epochs: int, callbacks: list, n_trials: int = 10, **kwargs):
     metrics = {
         "train_time": [],
         "test_time": [],
