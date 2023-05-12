@@ -2,11 +2,6 @@
 
 \subsection{17 Flowers}
 
-For the small dataset, color corrected input appears to perform on par, or even slightly worse than simply using the unprocessed image.
-With our model we observed a drop in accuracy of 10\% when using the Grey Edge algorithm to preprocess. It can also be seen that,
-unsurprisingly, VGG16 outperforms our model in all cases. It does however train significantly longer at both training and testing time.
-An overall visual comparison is presented in Figure \ref{fig:comparison_17_flowers}.
-
 %load the data for our model with 17 flowers
 \pgfplotstableread{data/ours_17_flowers_summary.csv}{\ourssmallsummary}
 \begin{table}[ht]
@@ -263,7 +258,7 @@ An overall visual comparison is presented in Figure \ref{fig:comparison_17_flowe
         \begin{tikzpicture}
             \begin{axis}[
                     title = Test Accuracy,
-                    ylabel = Loss,
+                    ylabel = Accuracy,
                     ybar,
                     xtick=data,
                     xticklabels from table = {\ourssmallsummary}{Algorithm},
@@ -301,11 +296,14 @@ An overall visual comparison is presented in Figure \ref{fig:comparison_17_flowe
     \label{fig:comparison_17_flowers}
 \end{figure}
 
-\def\historygraphheight{5cm}
+For the small dataset, color corrected input appears to perform on par, or even slightly worse than simply using the unprocessed image.
+With our model we observed a drop in accuracy of 10\% when using the Grey Edge algorithm to preprocess. The other main effect we observe
+is that training and testing, especially with VGG16, are finished much faster with FC\textsuperscript{4} than with the other algorithms.
+This can be explained by the fact that this is the only preprocessing step that did not run online during training. It is however striking
+that it is also faster than the base model, which this does not explain.
+An overall visual comparison is presented in Figure \ref{fig:comparison_17_flowers}.
 
-When observing the training progress shown in Figures \ref{fig:ours_17_flowers_history} and \ref{fig:vgg_17_flowers_history}, we again note that there are no particularly
-egregious differences between the color constancy approaches and the simple base model. We do however note that part of the reason for the long training time of VGG16
-is our choice to run all trials for the same number of epochs, with VGG16 appearing to converge around epoch 10, while our model does make use of all the time given.
+\def\historygraphheight{5cm}
 
 %load all tables for the following graphs so we don't need to load the file for each one
 \pgfplotstableread{data/train_accuracy_17_flowers.csv}\ourssmalltrainacc
@@ -560,7 +558,14 @@ is our choice to run all trials for the same number of epochs, with VGG16 appear
     \label{fig:vgg_17_flowers_history}
 \end{figure}
 
+When observing the training progress shown in Figures \ref{fig:ours_17_flowers_history} and \ref{fig:vgg_17_flowers_history}, we again note that there are no particularly
+egregious differences between the color constancy approaches and the simple base model. We do however note that part of the reason for the long training time of VGG16
+is our choice to run all trials for the same number of epochs, with VGG16 appearing to converge around epoch 10, while our model does make use of all the time given.
+
 \subsection{102 Flowers}
+
+With the larger dataset, we do observe a marked improvement in performance when compared to the baseline, but only when using the VGG16 model. On average,
+we receive a 21\% gain to classification accuracy when preprocessing with FC\textsuperscript{4}.
 
 %load the data for our model with 102 flowers
 \pgfplotstableread{data/ours_102_flowers_summary.csv}{\ourslargesummary}
@@ -818,7 +823,7 @@ is our choice to run all trials for the same number of epochs, with VGG16 appear
         \begin{tikzpicture}
             \begin{axis}[
                     title = Test Accuracy,
-                    ylabel = Loss,
+                    ylabel = Accuracy,
                     ybar,
                     xtick=data,
                     xticklabels from table = {\ourslargesummary}{Algorithm},
