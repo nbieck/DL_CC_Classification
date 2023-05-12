@@ -11,6 +11,7 @@ IMG_WIDTH = 180
 BATCH_SIZE = 32
 AUTOTUNE = tf.data.AUTOTUNE
 LEARNING_RATE = 1e-3
+FUNY_LOG_LEVEL = 99
 
 
 def load_ds(ds_name: str, cc: bool):
@@ -60,6 +61,8 @@ def load_ds(ds_name: str, cc: bool):
 
 
 def run_experiment(get_model, train_ds, val_ds, test_ds, n_epochs: int, callbacks: list, n_trials: int = 10, **kwargs):
+    logger = logging.getLogger(__name__)
+
     metrics = {
         "train_time": [],
         "test_time": [],
@@ -73,7 +76,7 @@ def run_experiment(get_model, train_ds, val_ds, test_ds, n_epochs: int, callback
     }
 
     for i in range(n_trials):
-        logging.info(f"Running trial {i+1}/{n_trials}.")
+        logger.funy(f"Running trial {i+1}/{n_trials}.")
 
         model = get_model(**kwargs)
 
@@ -106,8 +109,8 @@ def run_experiment(get_model, train_ds, val_ds, test_ds, n_epochs: int, callback
         metrics["history"].append(history)
 
         # Log information
-        logging.info(
-            f"Trial {i+1}/{n_trials}: train_acc {train_acc} | val_acc {val_acc} | test_acc {test_acc}")
+        logger.funy(
+            f"Trial {i+1}/{n_trials}: train_acc {train_acc:.4f} | val_acc {val_acc:.4f} | test_acc {test_acc:.4f}")
 
         # Clear Keras backend session to free GPU memory
         tf.keras.backend.clear_session()
@@ -132,3 +135,8 @@ def convert_seconds(seconds):
     hours, remainder = divmod(seconds, 3600)  # 3600 seconds in an hour
     minutes, seconds = divmod(remainder, 60)  # 60 seconds in a minute
     return hours, minutes
+
+
+def funy_log(self, message, *args, **kwargs):
+    if self.isEnabledFor(FUNY_LOG_LEVEL):
+        self._log(FUNY_LOG_LEVEL, message, args, **kwargs)
