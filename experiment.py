@@ -31,6 +31,9 @@ grey_world_layer = GreyWorld()
 white_patch_layer = WhitePatch()
 grey_edge_layer = GreyEdge()
 
+# Make the out directory
+os.makedirs("out", exist_ok=True)
+
 # Get start time
 start_time = time.time()
 
