@@ -15,31 +15,31 @@
 \pgfplotstableread{data/ours_17_flowers_summary.csv}{\ourssmallsummary}
 \pgfplotstablecreatecol[
     create col/assign/.code={
-        \pgfmathprintpmnumber{Average Train Time}{Stdev Train Time}
+        \pgfmathprintpmnumber{train_time_avg}{train_time_std}
         \pgfkeyslet{/pgfplots/table/create col/next content}\value
     }
 ]{train_time}{\ourssmallsummary}
 \pgfplotstablecreatecol[
     create col/assign/.code={
-        \pgfmathprintpmnumber{Average Test Time}{Stdev Test Time}
+        \pgfmathprintpmnumber{test_time_avg}{test_time_std}
         \pgfkeyslet{/pgfplots/table/create col/next content}\value
     }
 ]{test_time}{\ourssmallsummary}
 \pgfplotstablecreatecol[
     create col/assign/.code={
-        \pgfmathprintpmnumber{Average Training Loss}{Stdev Training Loss}
+        \pgfmathprintpmnumber{train_loss_avg}{train_loss_std}
         \pgfkeyslet{/pgfplots/table/create col/next content}\value
     }
 ]{train_loss}{\ourssmallsummary}
 \pgfplotstablecreatecol[
     create col/assign/.code={
-        \pgfmathprintpmnumber{Average Validation Loss}{Stdev Validation Loss}
+        \pgfmathprintpmnumber{val_loss_avg}{val_loss_std}
         \pgfkeyslet{/pgfplots/table/create col/next content}\value
     }
 ]{val_loss}{\ourssmallsummary}
 \pgfplotstablecreatecol[
     create col/assign/.code={
-        \pgfmathprintpmnumber{Average Test Accuracy}{Stdev Test Accuracy}
+        \pgfmathprintpmnumber{test_acc_avg}{test_acc_std}
         \pgfkeyslet{/pgfplots/table/create col/next content}\value
     }
 ]{test_acc}{\ourssmallsummary}
@@ -86,8 +86,8 @@
                 ] table[
                     col sep=comma,
                     x expr=\coordindex,
-                    y=Average Train Time,
-                    y error=Stdev Train Time
+                    y=train_time_avg,
+                    y error=train_time_std,
                 ] {\ourssmallsummary};
                 \addplot+[
                     draw=black,
@@ -121,8 +121,8 @@
                 ] table[
                     col sep=comma,
                     x expr=\coordindex,
-                    y=Average Test Time,
-                    y error=Stdev Test Time
+                    y=test_time_avg,
+                    y error=test_time_std,
                 ] {\ourssmallsummary};
                 \addplot+[
                     draw=black,
@@ -155,8 +155,8 @@
                 ] table[
                     col sep=comma,
                     x expr=\coordindex,
-                    y=Average Training Loss,
-                    y error=Stdev Training Loss
+                    y=train_loss_avg,
+                    y error=train_loss_std,
                 ] {\ourssmallsummary};
                 \addplot+[
                     draw=black,
@@ -189,8 +189,8 @@
                 ] table[
                     col sep=comma,
                     x expr=\coordindex,
-                    y=Average Validation Loss,
-                    y error=Stdev Validation Loss
+                    y=val_loss_avg,
+                    y error=val_loss_std,
                 ] {\ourssmallsummary};
                 \addplot+[
                     draw=black,
@@ -223,8 +223,8 @@
                 ] table[
                     col sep=comma,
                     x expr=\coordindex,
-                    y=Average Test Accuracy,
-                    y error=Stdev Test Accuracy,
+                    y=test_acc_avg,
+                    y error=test_acc_std,
                 ] {\ourssmallsummary};
                 \addplot+[
                     draw=black,
