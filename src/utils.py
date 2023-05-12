@@ -73,7 +73,7 @@ def run_experiment(get_model, train_ds, val_ds, test_ds, n_epochs: int, callback
     }
 
     for i in range(n_trials):
-        logging.info(f"Running trial number {i+1}/{n_trials}.")
+        logging.info(f"Running trial {i+1}/{n_trials}.")
 
         model = get_model(**kwargs)
 
@@ -92,15 +92,25 @@ def run_experiment(get_model, train_ds, val_ds, test_ds, n_epochs: int, callback
         end_time = time.perf_counter()
         test_time = end_time - start_time
 
+        train_acc = history.history["accuracy"][-1]
+        val_acc = history.history["val_accuracy"][-1]
+
         metrics["train_time"].append(training_time)
         metrics["test_time"].append(test_time)
-        metrics["train_acc"].append(history.history["accuracy"][-1])
+        metrics["train_acc"].append(train_acc)
         metrics["train_loss"].append(history.history["loss"][-1])
-        metrics["val_acc"].append(history.history["val_accuracy"][-1])
+        metrics["val_acc"].append(val_acc)
         metrics["val_loss"].append(history.history["val_loss"][-1])
         metrics["test_acc"].append(test_acc)
         metrics["test_loss"].append(test_loss)
         metrics["history"].append(history)
+
+        # Log information
+        logging.info(
+            f"Trial {i+1}/{n_trials}: train_acc {train_acc} | val_acc {val_acc} | test_acc {test_acc}")
+
+        # Clear Keras backend session to free GPU memory
+        tf.keras.backend.clear_session()
     return metrics
 
 
