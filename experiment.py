@@ -5,6 +5,7 @@ from src.model import get_model, get_vggmodel
 from src.utils import load_ds, run_experiment, write_to_excel, convert_seconds
 import logging
 import time
+import os
 
 # Parameters
 PARAMS_17F = {

@@ -83,12 +83,12 @@ def run_experiment(get_model, train_ds, val_ds, test_ds, n_epochs: int, callback
             validation_data=val_ds,
             epochs=n_epochs,
             callbacks=callbacks,
-            verbose=1)
+            verbose=0)
         end_time = time.perf_counter()
         training_time = end_time - start_time
 
         start_time = time.perf_counter()
-        test_loss, test_acc = model.evaluate(test_ds, verbose=1)
+        test_loss, test_acc = model.evaluate(test_ds, verbose=0)
         end_time = time.perf_counter()
         test_time = end_time - start_time
 
