@@ -75,7 +75,7 @@ for params in [PARAMS_17F, PARAMS_102F]:
 
     logging.info(f"Starting experiment: {params['name']} - FC4.")
 
-    metrics["FC4"] = run_experiment(GET_MODEL_FUNCTION, train_ds, val_ds, test_ds, n_epochs=params["n_epochs"],
+    metrics["FC4"] = run_experiment(GET_MODEL_FUNCTION, train_ds_cc, val_ds_cc, test_ds_cc, n_epochs=params["n_epochs"],
                                     learning_rate=LEARNING_RATE, callbacks=None, n_trials=N_TRIALS, num_classes=params["n_classes"])
 
     logging.info(
