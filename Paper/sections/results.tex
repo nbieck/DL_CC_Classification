@@ -241,239 +241,242 @@
     \label{fig:comparison_17_flowers}
 \end{figure}
 
+%load all tables for the following graphs so we don't need to load the file for each one
 \pgfplotstableread{data/train_loss_17_flowers.csv}\ourssmalltrainloss
 \pgfplotstableread{data/train_accuracy_17_flowers.csv}\ourssmalltrainacc
 \pgfplotstableread{data/validation_loss_17_flowers.csv}\ourssmallvalloss
 \pgfplotstableread{data/validation_accuracy_17_flowers.csv}\ourssmallvalacc
 
-\def\historygraphheight{4.5cm}
+\def\historygraphheight{4.395cm}
 
 \begin{figure}
-    \begin{tikzpicture}
-        \begin{axis}[
-            title = Training Loss over Time,
-            mark repeat=1,
-            xlabel = Epoch,
-            ylabel = Loss,
-            width=0.95\textwidth,
-            height=\historygraphheight,
-            each nth point={4},
-            legend columns=2,
-        ]
-            \addplot+[
-                smooth,
-            ] table[
-                x = Epoch,
-                y = Base,
-            ] {\ourssmalltrainloss};
-            \addlegendentry{Base}
-            \addplot+[
-                smooth,
-            ] table[
-                x = Epoch,
-                y = BatchNorm,
-            ] {\ourssmalltrainloss};
-            \addlegendentry{Batch Norm}
-            \addplot+[
-                smooth,
-            ] table[
-                x = Epoch,
-                y = FC4,
-            ] {\ourssmalltrainloss};
-            \addlegendentry{FC\textsuperscript{4}}
-            \addplot+[
-                smooth,
-            ] table[
-                x = Epoch,
-                y = WhitePatch,
-            ] {\ourssmalltrainloss};
-            \addlegendentry{White Patch}
-            \addplot+[
-                smooth,
-            ] table[
-                x = Epoch,
-                y = GreyEdge,
-            ] {\ourssmalltrainloss};
-            \addlegendentry{Grey Edge}
-            \addplot+[
-                smooth,
-            ] table[
-                x = Epoch,
-                y = GreyWorld,
-            ] {\ourssmalltrainloss};
-            \addlegendentry{Grey World}
-        \end{axis}
-    \end{tikzpicture}
-
-    \begin{tikzpicture}
-        \begin{axis}[
-            title = Validation Loss over Time,
-            mark repeat=1,
-            xlabel = Epoch,
-            ylabel = Loss,
-            width=0.95\textwidth,
-            height=\historygraphheight,
-            each nth point={4},
-            legend columns=2,
-        ]
-            \addplot+[
-                smooth,
-            ] table[
-                x = Epoch,
-                y = Base,
-            ] {\ourssmallvalloss};
-            \addlegendentry{Base}
-            \addplot+[
-                smooth,
-            ] table[
-                x = Epoch,
-                y = BatchNorm,
-            ] {\ourssmallvalloss};
-            \addlegendentry{Batch Norm}
-            \addplot+[
-                smooth,
-            ] table[
-                x = Epoch,
-                y = FC4,
-            ] {\ourssmallvalloss};
-            \addlegendentry{FC\textsuperscript{4}}
-            \addplot+[
-                smooth,
-            ] table[
-                x = Epoch,
-                y = WhitePatch,
-            ] {\ourssmallvalloss};
-            \addlegendentry{White Patch}
-            \addplot+[
-                smooth,
-            ] table[
-                x = Epoch,
-                y = GreyEdge,
-            ] {\ourssmallvalloss};
-            \addlegendentry{Grey Edge}
-            \addplot+[
-                smooth,
-            ] table[
-                x = Epoch,
-                y = GreyWorld,
-            ] {\ourssmallvalloss};
-            \addlegendentry{Grey World}
-        \end{axis}
-    \end{tikzpicture}
-
-    \begin{tikzpicture}
-        \begin{axis}[
-            title = Training Accuracy over Time,
-            mark repeat=1,
-            xlabel = Epoch,
-            ylabel = Accuracy,
-            legend pos=south east,
-            width=0.95\textwidth,
-            height=\historygraphheight,
-            each nth point={4},
-            legend columns=2,
-        ]
-            \addplot+[
-                smooth,
-            ] table[
-                x = Epoch,
-                y = Base,
-            ] {\ourssmalltrainacc};
-            \addlegendentry{Base}
-            \addplot+[
-                smooth,
-            ] table[
-                x = Epoch,
-                y = BatchNorm,
-            ] {\ourssmalltrainacc};
-            \addlegendentry{Batch Norm}
-            \addplot+[
-                smooth,
-            ] table[
-                x = Epoch,
-                y = FC4,
-            ] {\ourssmalltrainacc};
-            \addlegendentry{FC\textsuperscript{4}}
-            \addplot+[
-                smooth,
-            ] table[
-                x = Epoch,
-                y = WhitePatch,
-            ] {\ourssmalltrainacc};
-            \addlegendentry{White Patch}
-            \addplot+[
-                smooth,
-            ] table[
-                x = Epoch,
-                y = GreyEdge,
-            ] {\ourssmalltrainacc};
-            \addlegendentry{Grey Edge}
-            \addplot+[
-                smooth,
-            ] table[
-                x = Epoch,
-                y = GreyWorld,
-            ] {\ourssmalltrainacc};
-            \addlegendentry{Grey World}
-        \end{axis}
-    \end{tikzpicture}
-
-    \begin{tikzpicture}
-        \begin{axis}[
-            title = Validation Accuracy over Time,
-            mark repeat=1,
-            xlabel = Epoch,
-            ylabel = Accuracy,
-            legend pos=south east,
-            width=0.95\textwidth,
-            height=\historygraphheight,
-            each nth point={4},
-            legend columns=2,
-        ]
-            \addplot+[
-                smooth,
-            ] table[
-                x = Epoch,
-                y = Base,
-            ] {\ourssmallvalacc};
-            \addlegendentry{Base}
-            \addplot+[
-                smooth,
-            ] table[
-                x = Epoch,
-                y = BatchNorm,
-            ] {\ourssmallvalacc};
-            \addlegendentry{Batch Norm}
-            \addplot+[
-                smooth,
-            ] table[
-                x = Epoch,
-                y = FC4,
-            ] {\ourssmallvalacc};
-            \addlegendentry{FC\textsuperscript{4}}
-            \addplot+[
-                smooth,
-            ] table[
-                x = Epoch,
-                y = WhitePatch,
-            ] {\ourssmallvalacc};
-            \addlegendentry{White Patch}
-            \addplot+[
-                smooth,
-            ] table[
-                x = Epoch,
-                y = GreyEdge,
-            ] {\ourssmallvalacc};
-            \addlegendentry{Grey Edge}
-            \addplot+[
-                smooth,
-            ] table[
-                x = Epoch,
-                y = GreyWorld,
-            ] {\ourssmallvalacc};
-            \addlegendentry{Grey World}
-        \end{axis}
-    \end{tikzpicture}
+    %We use a centered table with a single right-aligned column to ensure that the graphs
+    %visually lign up while still being centered on the page
+    \centering
+    \begin{tabular}{r}
+        \begin{tikzpicture}
+            \begin{axis}[
+                title = Training Loss over Time,
+                mark repeat=1,
+                xlabel = Epoch,
+                ylabel = Loss,
+                width=0.95\textwidth,
+                height=\historygraphheight,
+                each nth point={4},
+                legend columns=2,
+            ]
+                \addplot+[
+                    smooth,
+                ] table[
+                    x = Epoch,
+                    y = Base,
+                ] {\ourssmalltrainloss};
+                \addlegendentry{Base}
+                \addplot+[
+                    smooth,
+                ] table[
+                    x = Epoch,
+                    y = BatchNorm,
+                ] {\ourssmalltrainloss};
+                \addlegendentry{Batch Norm}
+                \addplot+[
+                    smooth,
+                ] table[
+                    x = Epoch,
+                    y = FC4,
+                ] {\ourssmalltrainloss};
+                \addlegendentry{FC\textsuperscript{4}}
+                \addplot+[
+                    smooth,
+                ] table[
+                    x = Epoch,
+                    y = WhitePatch,
+                ] {\ourssmalltrainloss};
+                \addlegendentry{White Patch}
+                \addplot+[
+                    smooth,
+                ] table[
+                    x = Epoch,
+                    y = GreyEdge,
+                ] {\ourssmalltrainloss};
+                \addlegendentry{Grey Edge}
+                \addplot+[
+                    smooth,
+                ] table[
+                    x = Epoch,
+                    y = GreyWorld,
+                ] {\ourssmalltrainloss};
+                \addlegendentry{Grey World}
+            \end{axis}
+        \end{tikzpicture}\\
+        \begin{tikzpicture}
+            \begin{axis}[
+                title = Validation Loss over Time,
+                mark repeat=1,
+                xlabel = Epoch,
+                ylabel = Loss,
+                width=0.95\textwidth,
+                height=\historygraphheight,
+                each nth point={4},
+                legend columns=2,
+            ]
+                \addplot+[
+                    smooth,
+                ] table[
+                    x = Epoch,
+                    y = Base,
+                ] {\ourssmallvalloss};
+                \addlegendentry{Base}
+                \addplot+[
+                    smooth,
+                ] table[
+                    x = Epoch,
+                    y = BatchNorm,
+                ] {\ourssmallvalloss};
+                \addlegendentry{Batch Norm}
+                \addplot+[
+                    smooth,
+                ] table[
+                    x = Epoch,
+                    y = FC4,
+                ] {\ourssmallvalloss};
+                \addlegendentry{FC\textsuperscript{4}}
+                \addplot+[
+                    smooth,
+                ] table[
+                    x = Epoch,
+                    y = WhitePatch,
+                ] {\ourssmallvalloss};
+                \addlegendentry{White Patch}
+                \addplot+[
+                    smooth,
+                ] table[
+                    x = Epoch,
+                    y = GreyEdge,
+                ] {\ourssmallvalloss};
+                \addlegendentry{Grey Edge}
+                \addplot+[
+                    smooth,
+                ] table[
+                    x = Epoch,
+                    y = GreyWorld,
+                ] {\ourssmallvalloss};
+                \addlegendentry{Grey World}
+            \end{axis}
+        \end{tikzpicture}\\
+        \begin{tikzpicture}
+            \begin{axis}[
+                title = Training Accuracy over Time,
+                mark repeat=1,
+                xlabel = Epoch,
+                ylabel = Accuracy,
+                legend pos=south east,
+                width=0.95\textwidth,
+                height=\historygraphheight,
+                each nth point={4},
+                legend columns=2,
+            ]
+                \addplot+[
+                    smooth,
+                ] table[
+                    x = Epoch,
+                    y = Base,
+                ] {\ourssmalltrainacc};
+                \addlegendentry{Base}
+                \addplot+[
+                    smooth,
+                ] table[
+                    x = Epoch,
+                    y = BatchNorm,
+                ] {\ourssmalltrainacc};
+                \addlegendentry{Batch Norm}
+                \addplot+[
+                    smooth,
+                ] table[
+                    x = Epoch,
+                    y = FC4,
+                ] {\ourssmalltrainacc};
+                \addlegendentry{FC\textsuperscript{4}}
+                \addplot+[
+                    smooth,
+                ] table[
+                    x = Epoch,
+                    y = WhitePatch,
+                ] {\ourssmalltrainacc};
+                \addlegendentry{White Patch}
+                \addplot+[
+                    smooth,
+                ] table[
+                    x = Epoch,
+                    y = GreyEdge,
+                ] {\ourssmalltrainacc};
+                \addlegendentry{Grey Edge}
+                \addplot+[
+                    smooth,
+                ] table[
+                    x = Epoch,
+                    y = GreyWorld,
+                ] {\ourssmalltrainacc};
+                \addlegendentry{Grey World}
+            \end{axis}
+        \end{tikzpicture}\\
+        \begin{tikzpicture}
+            \begin{axis}[
+                title = Validation Accuracy over Time,
+                mark repeat=1,
+                xlabel = Epoch,
+                ylabel = Accuracy,
+                legend pos=south east,
+                width=0.95\textwidth,
+                height=\historygraphheight,
+                each nth point={4},
+                legend columns=2,
+            ]
+                \addplot+[
+                    smooth,
+                ] table[
+                    x = Epoch,
+                    y = Base,
+                ] {\ourssmallvalacc};
+                \addlegendentry{Base}
+                \addplot+[
+                    smooth,
+                ] table[
+                    x = Epoch,
+                    y = BatchNorm,
+                ] {\ourssmallvalacc};
+                \addlegendentry{Batch Norm}
+                \addplot+[
+                    smooth,
+                ] table[
+                    x = Epoch,
+                    y = FC4,
+                ] {\ourssmallvalacc};
+                \addlegendentry{FC\textsuperscript{4}}
+                \addplot+[
+                    smooth,
+                ] table[
+                    x = Epoch,
+                    y = WhitePatch,
+                ] {\ourssmallvalacc};
+                \addlegendentry{White Patch}
+                \addplot+[
+                    smooth,
+                ] table[
+                    x = Epoch,
+                    y = GreyEdge,
+                ] {\ourssmallvalacc};
+                \addlegendentry{Grey Edge}
+                \addplot+[
+                    smooth,
+                ] table[
+                    x = Epoch,
+                    y = GreyWorld,
+                ] {\ourssmallvalacc};
+                \addlegendentry{Grey World}
+            \end{axis}
+        \end{tikzpicture}
+    \end{tabular}
     \caption{For each algorithm, the development of training and validation loss and accuracy are shown 
     for the trial ending on the lowest validation loss respectively.}
     \label{fig:ours_17_flowers_history}
