@@ -1,4 +1,4 @@
-﻿Row Labels,train_time_avg,train_time_std,test_time_avg,test_time_std,train_loss_avg,train_loss_std,val_loss_avg,val_loss_std,test_acc_avg,test_acc_std
+﻿Algorithm,train_time_avg,train_time_std,test_time_avg,test_time_std,train_loss_avg,train_loss_std,val_loss_avg,val_loss_std,test_acc_avg,test_acc_std
 Base,1194.624157,28.82875117,147.1872713,3.118396487,0.010430725,0.009506097,4.208329892,0.611101078,0.54795903,0.015502206
 BatchNorm,1439.242924,405.0247895,122.1353354,3.795570484,0.027062568,0.019907485,6.245996714,1.075299699,0.47972028,0.037231206
 FC4,80.95650767,7.996833059,1.431744139,0.061179992,0.465642813,0.031489067,1.232808018,0.307426222,0.763823533,0.034076209
