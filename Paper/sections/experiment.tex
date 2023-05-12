@@ -9,13 +9,6 @@
 
 \section{Experiment}
 
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=\textwidth]{images/experiment_pipeline.png}
-    \caption{Pipeline for the experiment.}
-    \label{fig:experiment_pipeline}
-\end{figure}
-
 \subsection{Datasets}
 
 We used the publicly available Oxford 17 \cite{Nilsback06} and Oxford 104 \cite{Nilsback08} datasets. By using only existing datasets, we ensure that our results can more
@@ -23,7 +16,7 @@ easily be contrasted with other research in this area.
 
 \subsection{Color Constancy}
 
-\begin{figure}
+\begin{figure}[ht]
     \centering
     \begin{tabular}{c|cccc}
         \includegraphics[width=0.165\textwidth]{cc_demo/flower001_base.png}       &
@@ -86,6 +79,14 @@ The difference between the training and test accuracy scores suggests that the m
 Overall, the achieved accuracy scores demonstrate the potential of the VGG16 model for classifying the given image dataset.
 
 \subsubsection{Our Implemented Classifier}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{images/experiment_pipeline.png}
+    \caption{Pipeline for the experiment.}
+    \label{fig:experiment_pipeline}
+\end{figure}
+
 The initial version of our network is composed of a convolution layer, followed by max pooling, flatten, and a dense layer, finishing with a softmax activation.
 The goal of the initial version is to verify that the dataset was preprocessed in a way that allows fitting and evaluating the model, and to later tune it.
 For this, the 17 flowers dataset was split into training and validation sets (with the test set split to be implemented later) in a 80/20 ratio and used to fit the model.

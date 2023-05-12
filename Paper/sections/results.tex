@@ -9,7 +9,7 @@ An overall visual comparison is presented in Figure \ref{fig:comparison_17_flowe
 
 %load the data for our model with 17 flowers
 \pgfplotstableread{data/ours_17_flowers_summary.csv}{\ourssmallsummary}
-\begin{table}[h]
+\begin{table}[ht]
     \scriptsize
     \pgfplotstabletypeset[
         col sep=comma,
@@ -63,7 +63,7 @@ An overall visual comparison is presented in Figure \ref{fig:comparison_17_flowe
 \end{table}
 
 \pgfplotstableread{data/vgg16_17_flowers_summary.csv}{\vggsmallsummary}
-\begin{table}
+\begin{table}[ht]
     \tiny
     \pgfplotstabletypeset[
         col sep=comma,
@@ -116,7 +116,7 @@ An overall visual comparison is presented in Figure \ref{fig:comparison_17_flowe
     \label{table:vgg_17_flowers}
 \end{table}
 
-\begin{figure}
+\begin{figure}[ht]
     \centering
     \begin{tabular}{cc}
         \begin{tikzpicture}
@@ -308,12 +308,10 @@ egregious differences between the color constancy approaches and the simple base
 is our choice to run all trials for the same number of epochs, with VGG16 appearing to converge around epoch 10, while our model does make use of all the time given.
 
 %load all tables for the following graphs so we don't need to load the file for each one
-\pgfplotstableread{data/train_loss_17_flowers.csv}\ourssmalltrainloss
 \pgfplotstableread{data/train_accuracy_17_flowers.csv}\ourssmalltrainacc
-\pgfplotstableread{data/validation_loss_17_flowers.csv}\ourssmallvalloss
 \pgfplotstableread{data/validation_accuracy_17_flowers.csv}\ourssmallvalacc
 
-\begin{figure}
+\begin{figure}[ht]
     %We use a centered table with a single right-aligned column to ensure that the graphs
     %visually lign up while still being centered on the page
     \centering
@@ -436,12 +434,10 @@ is our choice to run all trials for the same number of epochs, with VGG16 appear
     \label{fig:ours_17_flowers_history}
 \end{figure}
 
-\pgfplotstableread{data/vgg_train_loss_17_flowers.csv}\vggsmalltrainloss
 \pgfplotstableread{data/vgg_train_acc_17_flowers.csv}\vggsmalltrainacc
-\pgfplotstableread{data/vgg16_val_loss_17_flowers.csv}\vggsmallvalloss
 \pgfplotstableread{data/vgg16_val_accuracy_17_flowers.csv}\vggsmallvalacc
 
-\begin{figure}
+\begin{figure}[ht]
     %We use a centered table with a single right-aligned column to ensure that the graphs
     %visually lign up while still being centered on the page
     \centering
@@ -568,7 +564,7 @@ is our choice to run all trials for the same number of epochs, with VGG16 appear
 
 %load the data for our model with 102 flowers
 \pgfplotstableread{data/ours_102_flowers_summary.csv}{\ourslargesummary}
-\begin{table}
+\begin{table}[ht]
     \scriptsize
     \pgfplotstabletypeset[
         col sep=comma,
@@ -620,7 +616,7 @@ is our choice to run all trials for the same number of epochs, with VGG16 appear
     \label{table:ours_102_flowers}
 \end{table}
 
-\begin{figure}
+\begin{figure}[ht]
     \centering
     \begin{tabular}{cc}
         \begin{tikzpicture}
@@ -804,12 +800,10 @@ is our choice to run all trials for the same number of epochs, with VGG16 appear
     \label{fig:comparison_102_flowers}
 \end{figure}
 
-\pgfplotstableread{data/train_loss_17_flowers.csv}\ourslargetrainloss
 \pgfplotstableread{data/train_accuracy_17_flowers.csv}\ourslargetrainacc
-\pgfplotstableread{data/validation_loss_17_flowers.csv}\ourslargevalloss
 \pgfplotstableread{data/validation_accuracy_17_flowers.csv}\ourslargevalacc
 
-\begin{figure}
+\begin{figure}[ht]
     %We use a centered table with a single right-aligned column to ensure that the graphs
     %visually lign up while still being centered on the page
     \centering
