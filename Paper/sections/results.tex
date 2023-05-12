@@ -241,114 +241,240 @@
     \label{fig:comparison_17_flowers}
 \end{figure}
 
+\pgfplotstableread{data/train_loss_17_flowers.csv}\ourssmalltrainloss
+\pgfplotstableread{data/train_accuracy_17_flowers.csv}\ourssmalltrainacc
+\pgfplotstableread{data/validation_loss_17_flowers.csv}\ourssmallvalloss
+\pgfplotstableread{data/validation_accuracy_17_flowers.csv}\ourssmallvalacc
+
+\def\historygraphheight{4.5cm}
+
 \begin{figure}
-    \centering
     \begin{tikzpicture}
         \begin{axis}[
-            title = Validation Loss over Time,
-            mark repeat=4,
+            title = Training Loss over Time,
+            mark repeat=1,
             xlabel = Epoch,
             ylabel = Loss,
-            width=0.9\textwidth,
-            height=6cm,
+            width=0.95\textwidth,
+            height=\historygraphheight,
+            each nth point={4},
+            legend columns=2,
         ]
             \addplot+[
-                sharp plot,
+                smooth,
             ] table[
                 x = Epoch,
                 y = Base,
-            ] {data/validation_loss_17_flowers.csv};
+            ] {\ourssmalltrainloss};
             \addlegendentry{Base}
             \addplot+[
-                sharp plot,
+                smooth,
             ] table[
                 x = Epoch,
                 y = BatchNorm,
-            ] {data/validation_loss_17_flowers.csv};
+            ] {\ourssmalltrainloss};
             \addlegendentry{Batch Norm}
             \addplot+[
-                sharp plot,
+                smooth,
             ] table[
                 x = Epoch,
                 y = FC4,
-            ] {data/validation_loss_17_flowers.csv};
+            ] {\ourssmalltrainloss};
             \addlegendentry{FC\textsuperscript{4}}
             \addplot+[
-                sharp plot,
+                smooth,
             ] table[
                 x = Epoch,
                 y = WhitePatch,
-            ] {data/validation_loss_17_flowers.csv};
+            ] {\ourssmalltrainloss};
             \addlegendentry{White Patch}
             \addplot+[
-                sharp plot,
+                smooth,
             ] table[
                 x = Epoch,
                 y = GreyEdge,
-            ] {data/validation_loss_17_flowers.csv};
+            ] {\ourssmalltrainloss};
             \addlegendentry{Grey Edge}
             \addplot+[
-                sharp plot,
+                smooth,
             ] table[
                 x = Epoch,
                 y = GreyWorld,
-            ] {data/validation_loss_17_flowers.csv};
+            ] {\ourssmalltrainloss};
             \addlegendentry{Grey World}
         \end{axis}
     \end{tikzpicture}
+
     \begin{tikzpicture}
         \begin{axis}[
-            title = Validation Accuracy over Time,
-            mark repeat=4,
+            title = Validation Loss over Time,
+            mark repeat=1,
+            xlabel = Epoch,
+            ylabel = Loss,
+            width=0.95\textwidth,
+            height=\historygraphheight,
+            each nth point={4},
+            legend columns=2,
+        ]
+            \addplot+[
+                smooth,
+            ] table[
+                x = Epoch,
+                y = Base,
+            ] {\ourssmallvalloss};
+            \addlegendentry{Base}
+            \addplot+[
+                smooth,
+            ] table[
+                x = Epoch,
+                y = BatchNorm,
+            ] {\ourssmallvalloss};
+            \addlegendentry{Batch Norm}
+            \addplot+[
+                smooth,
+            ] table[
+                x = Epoch,
+                y = FC4,
+            ] {\ourssmallvalloss};
+            \addlegendentry{FC\textsuperscript{4}}
+            \addplot+[
+                smooth,
+            ] table[
+                x = Epoch,
+                y = WhitePatch,
+            ] {\ourssmallvalloss};
+            \addlegendentry{White Patch}
+            \addplot+[
+                smooth,
+            ] table[
+                x = Epoch,
+                y = GreyEdge,
+            ] {\ourssmallvalloss};
+            \addlegendentry{Grey Edge}
+            \addplot+[
+                smooth,
+            ] table[
+                x = Epoch,
+                y = GreyWorld,
+            ] {\ourssmallvalloss};
+            \addlegendentry{Grey World}
+        \end{axis}
+    \end{tikzpicture}
+
+    \begin{tikzpicture}
+        \begin{axis}[
+            title = Training Accuracy over Time,
+            mark repeat=1,
             xlabel = Epoch,
             ylabel = Accuracy,
             legend pos=south east,
             width=0.95\textwidth,
+            height=\historygraphheight,
+            each nth point={4},
+            legend columns=2,
         ]
             \addplot+[
-                sharp plot,
+                smooth,
             ] table[
                 x = Epoch,
                 y = Base,
-            ] {data/validation_accuracy_17_flowers.csv};
+            ] {\ourssmalltrainacc};
             \addlegendentry{Base}
             \addplot+[
-                sharp plot,
+                smooth,
             ] table[
                 x = Epoch,
                 y = BatchNorm,
-            ] {data/validation_accuracy_17_flowers.csv};
+            ] {\ourssmalltrainacc};
             \addlegendentry{Batch Norm}
             \addplot+[
-                sharp plot,
+                smooth,
             ] table[
                 x = Epoch,
                 y = FC4,
-            ] {data/validation_accuracy_17_flowers.csv};
+            ] {\ourssmalltrainacc};
             \addlegendentry{FC\textsuperscript{4}}
             \addplot+[
-                sharp plot,
+                smooth,
             ] table[
                 x = Epoch,
                 y = WhitePatch,
-            ] {data/validation_accuracy_17_flowers.csv};
+            ] {\ourssmalltrainacc};
             \addlegendentry{White Patch}
             \addplot+[
-                sharp plot,
+                smooth,
             ] table[
                 x = Epoch,
                 y = GreyEdge,
-            ] {data/validation_accuracy_17_flowers.csv};
+            ] {\ourssmalltrainacc};
             \addlegendentry{Grey Edge}
             \addplot+[
-                sharp plot,
+                smooth,
             ] table[
                 x = Epoch,
                 y = GreyWorld,
-            ] {data/validation_accuracy_17_flowers.csv};
+            ] {\ourssmalltrainacc};
             \addlegendentry{Grey World}
         \end{axis}
     \end{tikzpicture}
-    \caption{}
+
+    \begin{tikzpicture}
+        \begin{axis}[
+            title = Validation Accuracy over Time,
+            mark repeat=1,
+            xlabel = Epoch,
+            ylabel = Accuracy,
+            legend pos=south east,
+            width=0.95\textwidth,
+            height=\historygraphheight,
+            each nth point={4},
+            legend columns=2,
+        ]
+            \addplot+[
+                smooth,
+            ] table[
+                x = Epoch,
+                y = Base,
+            ] {\ourssmallvalacc};
+            \addlegendentry{Base}
+            \addplot+[
+                smooth,
+            ] table[
+                x = Epoch,
+                y = BatchNorm,
+            ] {\ourssmallvalacc};
+            \addlegendentry{Batch Norm}
+            \addplot+[
+                smooth,
+            ] table[
+                x = Epoch,
+                y = FC4,
+            ] {\ourssmallvalacc};
+            \addlegendentry{FC\textsuperscript{4}}
+            \addplot+[
+                smooth,
+            ] table[
+                x = Epoch,
+                y = WhitePatch,
+            ] {\ourssmallvalacc};
+            \addlegendentry{White Patch}
+            \addplot+[
+                smooth,
+            ] table[
+                x = Epoch,
+                y = GreyEdge,
+            ] {\ourssmallvalacc};
+            \addlegendentry{Grey Edge}
+            \addplot+[
+                smooth,
+            ] table[
+                x = Epoch,
+                y = GreyWorld,
+            ] {\ourssmallvalacc};
+            \addlegendentry{Grey World}
+        \end{axis}
+    \end{tikzpicture}
+    \caption{For each algorithm, the development of training and validation loss and accuracy are shown 
+    for the trial ending on the lowest validation loss respectively.}
     \label{fig:ours_17_flowers_history}
 \end{figure}
