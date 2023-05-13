@@ -72,17 +72,16 @@ delta to the statistical methods to give an indication of whether this approach 
 In this study, two distinct classification models were employed: a Pre-trained VGG16 and a custom-built network developed by us. 
 To ensure a standardized approach for fair comparison and evaluation, certain key methodologies were incorporated. 
 Specifically, we applied consistent RMSprop optimizer and Sparse cross entropy loss function across both models.
- Given that we have 17 and 102 flower categories, this loss function is suitable for our multi-class classification problem. Moreover, we 1e-3 
-1e-4 for VGG. 
+Given that we have 17 and 102 flower categories, this loss function is suitable for our multi-class classification problem. Moreover, to explore different optimization paths, we set the learning rate 
+for our custom model 1e-3 and 1e-4 for Pre-trained VGG16. 
 
 
 \subsubsection{VGG16}
 
-VGG16
-The VGG16 model, well-known for its simplicity and effectiveness in image classification task, is used as a feature extractor in our study. Pre-trained on the ImageNet dataset, it captures high-level features. 
+The VGG16 model, well-known for its simplicity and effectiveness in image classification task, is used as a feature extractor in our study. Pre-trained on the ImageNet dataset, it effectively captures high-level features. 
 By employing transfer learning, we take advantage of the pre-trained weights of the VGG16 model that were trained on the large-scale ImageNet dataset. 
-The last four layers are fine-tuned for our flower classification, while the earlier layers remain frozen to preserve learned representations. 
-The final layer is replaced with a new fully connected layer of 17 neurons and SoftMax activation function. And a flatten layer that converts the output into a one-dimensional feature vector, followed by a dense layer of 1024 neurons and a dropout layer to prevent overfitting. 
+The last four layers are fine-tuned for our flower classification, while the first layers remain frozen to preserve latent features. The final layer is replaced with a new fully connected layer of 17 neurons and SoftMax activation function. 
+And a flatten layer that converts the output into a one-dimensional feature vector, followed by a dense layer of 1024 neurons and a dropout layer to prevent overfitting. 
 
 \subsubsection{Our Implemented Classifier}
 
