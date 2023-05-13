@@ -84,7 +84,7 @@ def get_vggmodel(num_classes: int, use_batchnorm: bool = False, cc_layer=None, l
         # Add cc layers
         model.add(cc_layer)
 
-    # Add the vgg model
+    # Add the vgg model to the final model
     model.add(vgg_model)
 
     # Add new layers
