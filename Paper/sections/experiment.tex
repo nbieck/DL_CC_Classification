@@ -73,8 +73,7 @@ In this study, two distinct classification models were employed: a Pre-trained V
 To ensure a standardized approach for fair comparison and evaluation, certain key methodologies were incorporated. 
 Specifically, we applied consistent RMSprop optimizer and Sparse cross entropy loss function across both models.
 Given that we have 17 and 102 flower categories, this loss function is suitable for our multi-class classification problem. Moreover, to explore different optimization paths, we set the learning rate 
-for our custom model 1e-3 and 1e-4 for Pre-trained VGG16. 
-
+for our custom model as 1e-3 and 1e-4 for Pre-trained VGG16. 
 
 \subsubsection{VGG16}
 
@@ -84,6 +83,8 @@ The last four layers are fine-tuned for our flower classification, while the fir
 And a flatten layer that converts the output into a one-dimensional feature vector, followed by a dense layer of 1024 neurons and a dropout layer to prevent overfitting. 
 
 \subsubsection{Our Implemented Classifier}
+
+As for our custome classifier, We incorporated. 
 
 \begin{figure}[ht]
     \centering
