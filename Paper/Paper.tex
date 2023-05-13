@@ -1,7 +1,15 @@
 \documentclass[runningheads]{llncs}
 \bibliographystyle{splncs04}
 
+\usepackage{glossaries}
+
+% DEFINE ACRONYMS HERE. Params: label, short version, long version
+\newacronym{CNN}{CNN}{Convolutional Neural Network}
+\newacronym{CC}{CC}{Color Constancy}
+
+
 \usepackage{Paper}
+
 
 \graphicspath{ {./images/} }
 
@@ -39,7 +47,7 @@
     suitable for this study due to the crucial role of color in their identification.
     The comparison is conducted with and without the application of color constancy
     methods as a preprocessing step. We also compare the results with the use of batch
-    normalization as an alternative to color constancy. 
+    normalization as an alternative to color constancy.
     Our results show no particular gain made by our methods, but we believe further research
     is warranted.
 \end{abstract}
