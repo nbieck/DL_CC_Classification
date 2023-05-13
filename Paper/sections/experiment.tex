@@ -91,10 +91,10 @@ In this study, two distinct classification models were employed: a pre-trained V
 To ensure a standardized approach for fair comparison and evaluation, certain key methodologies were incorporated.
 Specifically, we applied consistent RMSProp optimizer and Sparse Cross Entropy loss function across both models.
 Given that we have 17 and 102 flower categories, this loss function is suitable for our multi-class classification problem. Moreover, to explore different optimization paths, we set the learning rate
-for our custom model as 1e-3 and 1e-4 for the Pre-trained VGG16 model.
+for our custome model as 1e-3 and 1e-4 for the Pre-trained VGG16 model.
 
 \subsubsection{VGG16}
-The VGG16 model, well-known for its simplicity and effectiveness in image classification tasks, is used as a feature extractor in our study. Pre-trained on the ImageNet dataset, it effectively captures high-level features.
+The VGG16 model \cite{SimonyanVGG} well-known for its simplicity and effectiveness in image classification tasks, is used as a feature extractor in our study. Pre-trained on the ImageNet dataset, it effectively captures high-level features.
 By employing transfer learning, we take advantage of the pre-trained weights of the VGG16 model that were trained on the large-scale ImageNet dataset.
 The last four layers are fine-tuned for our flower classification, while the first layers remain frozen to preserve latent features. The final layer is replaced with a new fully connected layer of 17 or 102 neurons (depending on which dataset is being used) and SoftMax activation function.
 And a flatten layer that converts the output into a one-dimensional feature vector, followed by a dense layer of 1024 neurons and a dropout layer to prevent overfitting.
