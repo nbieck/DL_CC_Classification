@@ -62,14 +62,14 @@ def get_model(num_classes: int, use_batchnorm: bool = False, cc_layer=None, lear
 def get_vggmodel(num_classes: int, use_batchnorm: bool = False, cc_layer=None, learning_rate=1e-3):
 
     # Load the VGG model
-    vgg_conv = VGG16(weights='imagenet', include_top=False,
+    vgg_model = VGG16(weights='imagenet', include_top=False,
                      input_shape=(IMG_HEIGHT, IMG_WIDTH, 3))
 
-    # Freeze all the layers except for the last layer:
-    for layer in vgg_conv.layers[:-4]:
+    # freezes all layers in the VGG model except for the last four layers
+    for layer in vgg_model.layers[:-4]:
         layer.trainable = False
 
-    # Create the model
+    # Create the final model
     model = models.Sequential()
 
     model.add(Rescaling(1./255))
@@ -84,8 +84,8 @@ def get_vggmodel(num_classes: int, use_batchnorm: bool = False, cc_layer=None, l
         # Add cc layers
         model.add(cc_layer)
 
-    # Add the vgg convolutional base model
-    model.add(vgg_conv)
+    # Add the vgg model
+    model.add(vgg_model)
 
     # Add new layers
     model.add(Flatten())
