@@ -1,20 +1,21 @@
-\section{Future Work}
-
-\subsubsection{Color Constancy Algorithms}
-
-In this work, we only investigated very simple statistical methods as well as one more complex model to serve as a representative
-for deep learning based approaches (FC\textsuperscript{4}). While this can serve to deliver baseline results, it might be worth investigating
-whether other, more sophisticated method of applying \gls{CC} will deliver better results.
-
-\subsubsection{Datasets}
-
-Similar to the above concerns, in this paper we limited ourselves to only working with images of flowers. It is possible that images from
-other domains will experience wildly different results. Most images of flowers are captured outside, meaning there is already less variation in
-light color than pictures taken in other circumstances. We thus believe that a followup with a wider range of categories would be useful.
-
-
 \section{Conclusion}
 
-In our experiments we were unable to find any partiular benefit to classification accuracy. That does not necessarily mean that this approach is a dead
-end. As mentioned above, our datasets both consisted of images generally taken outside in natural light. It is possible that datasets captured under
-more varied lighting conditions could actually see some improvements made.
+We found no substantial gain in categorization accuracy in our experiments.
+However, this does not necessarily imply that this strategy is pointless.
+
+Our datasets were mostly composed of images acquired
+outdoors in natural lighting settings. It is possible that datasets covering a
+broader variety of illumination conditions will produce potential improvements.
+As such, further research is needed to determine the usefulness of this strategy in different
+lighting circumstances.
+
+
+\section{Future Work}
+
+In this work, we only investigated simple statistical methods as well as a complex model to serve as a representative
+for deep learning based approaches (FC\textsuperscript{4}). While this can serve to deliver baseline results, it is worth investigating
+whether other, more sophisticated methods of applying \gls{CC} will deliver better results.
+
+Similar to the above concerns, in this paper we limited ourselves to only working with images of flowers. It is possible that images from
+other domains will experience significantly different results. Most images of flowers are captured outside, meaning there is already less variation in
+light color than pictures taken in other circumstances. Therefore, we believe that a followup study with a wider range of categories could be useful.
