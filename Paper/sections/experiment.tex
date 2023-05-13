@@ -69,14 +69,20 @@ delta to the statistical methods to give an indication of whether this approach 
 
 \subsection{Classification models}
 
-Two classification models were used for the classification stage of the pipeline: Pre-trained VGG16 and our own implemented network. % FUNY-NET
+In this study, two distinct classification models were employed: a Pre-trained VGG16 and a custom-built network developed by us. 
+To ensure a standardized approach for fair comparison and evaluation, certain key methodologies were incorporated. 
+Specifically, we applied consistent RMSprop optimizer and Sparse cross entropy loss function across both models.
+ Given that we have 17 and 102 flower categories, this loss function is suitable for our multi-class classification problem. Moreover, we 1e-3 
+1e-4 for VGG. 
+
 
 \subsubsection{VGG16}
-We utilized a pre-trained VGG16 convolutional neural network architecture to classify a raw 17 category image dataset.
-The model was obtained from an online source and trained on our dataset. During training, the model achieved a training accuracy of 0.8446691036224365 and a test accuracy of 0.7867646813392639.
-The training accuracy score indicates the model's performance on the training data, while the test accuracy score represents the model's generalization ability on unseen data.
-The difference between the training and test accuracy scores suggests that the model might be overfitting to the training data. Therefore, further investigation may be needed to improve the model's performance on unseen data.
-Overall, the achieved accuracy scores demonstrate the potential of the VGG16 model for classifying the given image dataset.
+
+VGG16
+The VGG16 model, well-known for its simplicity and effectiveness in image classification task, is used as a feature extractor in our study. Pre-trained on the ImageNet dataset, it captures high-level features. 
+By employing transfer learning, we take advantage of the pre-trained weights of the VGG16 model that were trained on the large-scale ImageNet dataset. 
+The last four layers are fine-tuned for our flower classification, while the earlier layers remain frozen to preserve learned representations. 
+The final layer is replaced with a new fully connected layer of 17 neurons and SoftMax activation function. And a flatten layer that converts the output into a one-dimensional feature vector, followed by a dense layer of 1024 neurons and a dropout layer to prevent overfitting. 
 
 \subsubsection{Our Implemented Classifier}
 
