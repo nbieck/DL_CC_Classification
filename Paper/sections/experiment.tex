@@ -10,8 +10,8 @@
 \section{Experiment}
 
 The goal of the experiment is to evaluate the effects of \gls{CC} as a pre-processing step for the cases
-of simple and complex datasets and classification models.
-It consists of training and evaluation on all variations over ten trials.
+of simple and complex datasets and classification models. We compare it with both the base reference and a case where batch normalization is used.
+Training and evaluation is done on all variations over ten trials.
 
 For this purpose, we use two flower datasets of different complexities with 17 and 102 classes each. Our basis for comparison
 are the results obtained from training and evaluating on the datasets without \gls{CC} nor batch normalization.
@@ -29,7 +29,8 @@ Figure \ref{fig:experiment_pipeline} presents an overview of the experiment.
 \subsection{Datasets}
 
 We used the publicly available Oxford 17 \cite{Nilsback06} and Oxford 102 \cite{Nilsback08} flower datasets.
-Oxford 17 contains 1360 images, and 80 images per class. Oxford 102 contains 8189 images, with between 40 and 258 images per class.
+Oxford 17 contains 1360 images with 80 images per class, and Oxford 102 contains 8189 images with between 40 and 258 images per class.
+For both datasets, we apply data augmentation by flipping the images and varying zoom, rotation, and translation.
 
 \subsection{Color Constancy}
 
@@ -86,25 +87,28 @@ delta to the statistical methods to give an indication of whether this approach 
 
 \subsection{Classification models}
 
-In this study, two distinct classification models were employed: a Pre-trained VGG16 and a custom-built network developed by us.
+In this study, two distinct classification models were employed: a pre-trained VGG16 and our own \gls{CNN} trained from scratch.
 To ensure a standardized approach for fair comparison and evaluation, certain key methodologies were incorporated.
-Specifically, we applied consistent RMSprop optimizer and Sparse cross entropy loss function across both models.
+Specifically, we applied consistent RMSProp optimizer and Sparse Cross Entropy loss function across both models.
 Given that we have 17 and 102 flower categories, this loss function is suitable for our multi-class classification problem. Moreover, to explore different optimization paths, we set the learning rate
 for our custom model as 1e-3 and 1e-4 for the Pre-trained VGG16 model.
 
 \subsubsection{VGG16}
-
-The VGG16 model, well-known for its simplicity and effectiveness in image classification task, is used as a feature extractor in our study. Pre-trained on the ImageNet dataset, it effectively captures high-level features.
+The VGG16 model, well-known for its simplicity and effectiveness in image classification tasks, is used as a feature extractor in our study. Pre-trained on the ImageNet dataset, it effectively captures high-level features.
 By employing transfer learning, we take advantage of the pre-trained weights of the VGG16 model that were trained on the large-scale ImageNet dataset.
-The last four layers are fine-tuned for our flower classification, while the first layers remain frozen to preserve latent features. The final layer is replaced with a new fully connected layer of 17 neurons and SoftMax activation function.
+The last four layers are fine-tuned for our flower classification, while the first layers remain frozen to preserve latent features. The final layer is replaced with a new fully connected layer of 17 or 102 neurons (depending on which dataset is being used) and SoftMax activation function.
 And a flatten layer that converts the output into a one-dimensional feature vector, followed by a dense layer of 1024 neurons and a dropout layer to prevent overfitting.
 
-\subsubsection{Our Implemented Classifier}
+\subsubsection{Our CNN}
 
-As for our custom classifier,  The architecture of our implemented network includes a sequence of layers. Which essentially follows a common Convolutional Neural Network Architecture (CNN)
-follows a typical convolutional neural network architecture, starting with convolutional and pooling layers for feature extraction, followed by fully connected layers for classification.
-The ReLU activation function introduces non-linearity, and the dropout layer helps regularize the network.
+The implemented \gls{CNN} consists of pairs of convolutions and max pooling, followed by a flatten, ReLU activation, dropout, and a fully-connected dense layer for classification.
+The \gls{CC} layer is included before the first convolution, and the batch normalization layer is in-between the first convolution (input layer) and it's ReLU activation.
+It is a simple network designed to score well on the Oxford 17 dataset (approximatelly $80\%$ test accuracy). Figure \ref{fig:our_cnn} shows the implemented architecture with the batch normalization layer.
 
 
-
-    {\color{red} This still needs rework.}
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{images/ours_architecture.png}
+    \caption{Architecture of our CNN.}
+    \label{fig:our_cnn}
+\end{figure}
