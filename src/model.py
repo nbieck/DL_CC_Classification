@@ -61,7 +61,7 @@ def get_model(num_classes: int, use_batchnorm: bool = False, cc_layer=None, lear
 
 def get_vggmodel(num_classes: int, use_batchnorm: bool = False, cc_layer=None, learning_rate=1e-3):
 
-    # Load the VGG model
+    # Initial the VGG model
     vgg_model = VGG16(weights='imagenet', include_top=False,
                      input_shape=(IMG_HEIGHT, IMG_WIDTH, 3))
 
