@@ -73,7 +73,7 @@ In this study, two distinct classification models were employed: a Pre-trained V
 To ensure a standardized approach for fair comparison and evaluation, certain key methodologies were incorporated. 
 Specifically, we applied consistent RMSprop optimizer and Sparse cross entropy loss function across both models.
 Given that we have 17 and 102 flower categories, this loss function is suitable for our multi-class classification problem. Moreover, to explore different optimization paths, we set the learning rate 
-for our custome model as 1e-3 and 1e-4 for the Pre-trained VGG16 model. 
+for our custom model as 1e-3 and 1e-4 for the Pre-trained VGG16 model. 
 
 \subsubsection{VGG16}
 
@@ -84,7 +84,7 @@ And a flatten layer that converts the output into a one-dimensional feature vect
 
 \subsubsection{Our Implemented Classifier}
 
-As for our custome classifier,  The architecture of our implemented network includes a sequence of layers. Which essentially follows a common Convolutional Neural Network Architecture (CNN) 
+As for our custom classifier,  The architecture of our implemented network includes a sequence of layers. Which essentially follows a common Convolutional Neural Network Architecture (CNN) 
 follows a typical convolutional neural network architecture, starting with convolutional and pooling layers for feature extraction, followed by fully connected layers for classification. 
 The ReLU activation function introduces non-linearity, and the dropout layer helps regularize the network.
 
@@ -99,24 +99,4 @@ The ReLU activation function introduces non-linearity, and the dropout layer hel
 The initial version of our network is composed of a convolution layer, followed by max pooling, flatten, and a dense layer, finishing with a softmax activation.
 The goal of the initial version is to verify that the dataset was preprocessed in a way that allows fitting and evaluating the model, and to later tune it.
 For this, the 17 flowers dataset was split into training and validation sets (with the test set split to be implemented later) in a 80/20 ratio and used to fit the model.
-
-Once the fitting was successful and it was verified that the dataset splits work, we implemented the basis for model tuning using the Keras Tuner \cite{omalley2019kerastuner}.
-Number of filters and the kernel size in the convolution layer were the focus of the tuning trial, with values varying from 32 to 512 with steps of 32 for the number of filters, and kernel sizes of 3 and 5.
-Number of trials was set to 3, max pooling kernel size of 2x2, Adam optimizer, and Sparse Categorical Crossentropy for the loss function. Trial results are as follows:
-
-\begin{tabular}{c|c|c}
-    Filters & Kernel size & Score  \\
-    \hline
-    \hline
-    224     & 3x3         & 0.5515 \\
-    \hline
-    320     & 5x5         & 0.5000 \\
-    \hline
-    32      & 5x5         & 0.4890
-\end{tabular}
-
-This verifies that we can easily tune our network as we develop it further. It's clear that the score is low and the model can be further improved with additional layers.
-Furthermore, it was noted that the model quickly overfits past epoch number $5$ with an accuracy of around $0.99$ but validation score of approximately $0.5$.
-The use of, e.g., dropout layers and other techniques could help avoid overfitting.
-
-Next steps include adding more layers to the model, implementing features to avoid overfitting (i.e., dropout), experimenting with a depthwise and depthwise-separable convolution approach, and applying FUNY-NET to the datasets preprocessed by the CC models.
+{\color{red} This still needs rework.}
