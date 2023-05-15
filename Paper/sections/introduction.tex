@@ -1,19 +1,14 @@
 \section{Introduction}
 
-\gls{CC} is a natural part of the human visual system that lets us recognize that a color
-stays the same even under changing illumination. Letting computers do this same thing and then
-modify the image color to represent their appearance under a neutral light source is a well-established
-and on-going area of research. One of the presumed benefits of doing this is improved performance
-of recognition tasks that rely to a large part on color, as it removes the need for the classification
-model to learn to recognize objects under changing lighting conditions.
+\gls{CC} is a natural characteristic of the human visual system that allows us to sense
+that a color remains consistent despite changes in lighting. Extending this capability to computers
+and then modifying image color to represent appearance under a neutral light source is a well-established
+and on-going area of research \cite{FOSTER2011674}. One of the anticipated benefits of this technique is improved performance
+in color-based recognition tasks, as it reduces the need for the classification model to learn object
+recognition under different lighting situations \cite{Kasaei_Ghorbani_Schilperoort_vanderRest_2021}.
 
 While some effort has been made to investigate how \gls{CC} correction can aid in video tracking
 \cite{Agarwal2006}, as far as we can tell, no investigation specific to the field of object
 classification has, as of yet, been performed. In this paper, we will do just that, using the
 classification of flowers as a sample task, since this is clearly an area where color is of large
-importance to a successful classification.
-
-% Todo:
-%! 1- lots of use of 'this'. Can the sentence be rewritten to be clearer?
-%! 2- the use of terms such as 'as far as we know' and 'clearly' is dangerous. Alternatives?
-%! 3- 'While some effort has been made...' -> 'While efforts to investigate... have been made, as far as...'
+importance to a successful classification \cite{LU2021110082}.
