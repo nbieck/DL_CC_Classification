@@ -98,7 +98,7 @@ for our custom model as 1e-3 and 1e-4 for the Pre-trained VGG16 model.
 The VGG16 model well-known for its simplicity and effectiveness in image classification tasks \cite{SimonyanVGG} is used as a feature extractor in our study. Pre-trained on the ImageNet dataset, it effectively captures high-level features.
 By utilizing transfer learning, we take advantage of the pre-trained weights of the VGG16 model that were trained on the large-scale ImageNet dataset.
 The last four layers are fine-tuned for our flower classification, while freezing the first layers to prevent their weights being updated during training. Additionally, new layers are introduced to capture high-level features and domain specific learning.
-A flatten layer is added with a goal to convert the multidimensional feature maps from the preceding layer into one-dimensional feature vector, followed by a Dense layer of 1024 neurons and ReLU activation to enhance capacity of the model. 
+A flatten layer is added with a goal to convert the multidimensional feature maps from the preceding layer into one-dimensional feature vector, followed by a Dense layer of 1024 neurons and ReLU activation to enhance capacity of the model.
 In order to prevent overfitting, a dropout layer is added with 0.5 rate. Finally, a Dense layer with 17 or 102 neurons (depending on which dataset is being used) and SoftMax activation aiming to produce the final classification probabilities \cite{kaggle_flower_cnn}.
 
 \subsubsection{Our CNN}
@@ -111,6 +111,6 @@ It is a simple network designed to score well on the Oxford 17 dataset (approxim
 \begin{figure}[ht]
     \centering
     \includegraphics[width=\textwidth]{images/ours_architecture.png}
-    \caption{Architecture of our CNN.}
+    \caption{Architecture of our CNN, made with \cite{Gavrikov2020VisualKeras}.}
     \label{fig:our_cnn}
 \end{figure}
